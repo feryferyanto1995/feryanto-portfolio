@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feryanto, UX Designer</title>
+  <meta name="description" content="Feryanto is a UX designer based in Singapore.">
+  <meta name="color-scheme" content="dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+  <a class="skip" href="#work">Skip to work</a>
+
+  <header class="nav">
+    <a class="brand" href="#top">Feryanto</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="scene" role="img" aria-label="Hand-drawn night sky over a globe showing Singapore, Malaysia and Indonesia, with Marina Bay Sands, the Merlion, a rainforest, a rocket, a UFO and the moon.">
+        <div class="layer layer-mono">
+          <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false"><!--SCENE--></svg>
+        </div>
+        <div class="layer layer-color" aria-hidden="true"></div>
+        <svg class="hits" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice"><!--HITS--></svg>
+        <div class="lens" aria-hidden="true"></div>
+        <p class="tip" aria-hidden="true"></p>
+      </div>
+
+      <div class="hero-copy">
+        <h1 id="hero-title">Hi, I'm Feryanto.</h1>
+        <p class="lede">A UX designer in Singapore, turning tangled problems into products that feel easy to use.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#work">See my work</a>
+          <p class="hunt" aria-live="polite">
+            <span class="hunt-text">Hover the night to find its colours</span>
+            <span class="hunt-count"><b>0</b>/<span class="hunt-total">9</span></span>
+            <button type="button" class="hunt-skip">Show all</button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="work">
+      <h2 class="reveal">Selected work</h2>
+      <div class="work-grid">
+        <article class="project project-a reveal">
+          <a href="#" class="project-link">
+            <!-- TODO: replace with a real cover image, about 1600x1200 -->
+            <div class="cover"><span>Project cover<br>1600 x 1200</span></div>
+            <h3>Project title</h3>
+            <p>One sentence on the problem, and one on what changed because of your design.</p>
+            <p class="meta">UX design, research <span aria-hidden="true">/</span> 2026</p>
+          </a>
+        </article>
+        <article class="project project-b reveal">
+          <a href="#" class="project-link">
+            <!-- TODO: replace with a real cover image, about 1200x1500 -->
+            <div class="cover"><span>Project cover<br>1200 x 1500</span></div>
+            <h3>Project title</h3>
+            <p>One sentence on the problem, and one on what changed because of your design.</p>
+            <p class="meta">Interaction design <span aria-hidden="true">/</span> 2025</p>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="photos reveal">
+        <!-- TODO: swap each .snap-img placeholder for <img src="..." alt="..."> (about 900x1150, portrait).
+             Add or remove .snap items freely; the shuffle handles any count. -->
+        <button type="button" class="stack" aria-label="Show the next photo">
+          <figure class="snap" data-pos="0">
+            <div class="snap-img tone-a"><span>Photo 1<br>your portrait</span></div>
+            <span class="stamp" aria-hidden="true">10 06 26</span>
+          </figure>
+          <figure class="snap" data-pos="1">
+            <div class="snap-img tone-b"><span>Photo 2<br>a place you love</span></div>
+            <span class="stamp" aria-hidden="true">07 30 25</span>
+          </figure>
+          <figure class="snap" data-pos="2">
+            <div class="snap-img tone-c"><span>Photo 3<br>you, off duty</span></div>
+            <span class="stamp" aria-hidden="true">12 24 24</span>
+          </figure>
+        </button>
+        <span class="tape" aria-hidden="true"></span>
+        <p class="stack-hint" aria-live="polite">Tap the photo to shuffle</p>
+      </div>
+      <div class="about-text reveal">
+        <h2>About me</h2>
+        <p>Write two or three sentences here about who you are, what kind of problems you like, and how you approach them.</p>
+        <p>Add a second, more personal paragraph: what you do outside work, or what got you into UX.</p>
+        <h3 class="xp-title">Where I've worked</h3>
+        <ol class="xp">
+          <li><span class="xp-co">Company name</span><span class="xp-role">Role title</span><span class="xp-yr">2024 - now</span></li>
+          <li><span class="xp-co">Company name</span><span class="xp-role">Role title</span><span class="xp-yr">2022 - 2024</span></li>
+          <li><span class="xp-co">Company name</span><span class="xp-role">Role title</span><span class="xp-yr">2020 - 2022</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2 class="reveal">Got a project in mind?</h2>
+      <a class="mail reveal" href="mailto:feryferyanto1995@gmail.com">feryferyanto1995@gmail.com</a>
+      <ul class="links reveal">
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Resume (PDF)</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>&copy; 2026 Feryanto</p>
+    <a href="#top">Back to top</a>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
