@@ -21,7 +21,7 @@
   <a class="skip" href="#work">Skip to work</a>
 
   <header class="nav">
-    <a class="brand" href="#top">Feryanto</a>
+    <a class="brand" href="#top">UX Portfolio</a>
     <nav aria-label="Main">
       <a href="#work">Work</a>
       <a href="#about">About</a>
@@ -39,8 +39,8 @@
             <img class="art-grey" src="assets/hero-globe-grey.webp" width="1983" height="793" alt="" fetchpriority="high">
             <img class="art-colour" src="assets/hero-globe-colour.webp" width="1983" height="793" alt="" fetchpriority="high">
             <div class="sky-day" aria-hidden="true"></div>
-            <button type="button" class="spot" data-key="ufo" data-label="Opportunity" style="--x:38.43%;--y:7.82%;--r:4.44%" aria-label="Colour in: Opportunity"></button>
-            <button type="button" class="spot" data-key="dog" data-label="Me" style="--x:38.93%;--y:22.45%;--r:3.33%" aria-label="Colour in: Me"></button>
+            <button type="button" class="spot" data-key="ufo" data-label="Opportunity" data-tip="37.87 5.6" style="--x:38.43%;--y:7.82%;--r:4.44%" aria-label="Colour in: Opportunity"></button>
+            <button type="button" class="spot" data-key="dog" data-label="Me" data-href="#about" data-tip="39.64 18.03" data-tip-side="right" style="--x:38.93%;--y:22.45%;--r:3.33%" aria-label="Me: go to About me"></button>
             <button type="button" class="spot" data-key="skyline" data-label="City skyline" style="--x:27.48%;--y:34.68%;--r:6.56%" aria-label="Colour in: City skyline"></button>
             <button type="button" class="spot" data-key="merlion" data-label="Merlion" style="--x:44.53%;--y:57.00%;--r:2.42%" aria-label="Colour in: Merlion"></button>
             <button type="button" class="spot" data-key="home" data-label="Home" style="--x:49.32%;--y:61.29%;--r:2.52%" aria-label="Colour in: Home"></button>
@@ -90,20 +90,19 @@
 
     <section id="about" class="about">
       <div class="photos reveal">
-        <!-- TODO: swap each .snap-img placeholder for <img src="..." alt="..."> (about 900x1150, portrait).
-             Add or remove .snap items freely; the shuffle handles any count. -->
+        <!-- Photos: add or remove .snap items freely; the shuffle handles any count. -->
         <button type="button" class="stack" aria-label="Show the next photo">
           <figure class="snap" data-pos="0">
-            <div class="snap-img tone-a"><span>Photo 1<br>your portrait</span></div>
-            <span class="stamp" aria-hidden="true">10 06 26</span>
+            <div class="snap-img"><img src="assets/photo-profile.webp" width="1100" height="1406" alt="Feryanto smiling and making a peace sign on a forest trail at dusk" loading="lazy" decoding="async"></div>
+            <span class="stamp" aria-hidden="true">06 27 26</span>
           </figure>
           <figure class="snap" data-pos="1">
-            <div class="snap-img tone-b"><span>Photo 2<br>a place you love</span></div>
-            <span class="stamp" aria-hidden="true">07 30 25</span>
+            <div class="snap-img"><img src="assets/photo-1.webp" width="1100" height="1406" alt="A deer resting on a sunlit, rocky hillside under a deep blue sky" loading="lazy" decoding="async"></div>
+            <span class="stamp" aria-hidden="true">07 13 24</span>
           </figure>
           <figure class="snap" data-pos="2">
-            <div class="snap-img tone-c"><span>Photo 3<br>you, off duty</span></div>
-            <span class="stamp" aria-hidden="true">12 24 24</span>
+            <div class="snap-img"><img src="assets/photo-2.webp" width="1100" height="1406" alt="A tiered temple on a lake in Bali with mountains behind and two white geese in front" loading="lazy" decoding="async"></div>
+            <span class="stamp" aria-hidden="true">07 06 24</span>
           </figure>
         </button>
         <span class="tape" aria-hidden="true"></span>
@@ -126,7 +125,7 @@
       <h2 class="reveal">Got a project in mind?</h2>
       <a class="mail reveal" href="mailto:feryferyanto1995@gmail.com">feryferyanto1995@gmail.com</a>
       <ul class="links reveal">
-        <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/feryferyanto/" target="_blank" rel="noopener">LinkedIn</a></li>
         <li><a href="#">Resume (PDF)</a></li>
       </ul>
     </section>

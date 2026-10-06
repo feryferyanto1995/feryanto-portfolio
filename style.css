@@ -180,7 +180,26 @@ img, svg { display: block; }
 
 /* ---------- sections ---------- */
 section:not(.hero) { padding: clamp(80px, 12vw, 160px) var(--gutter); max-width: 1400px; margin: 0 auto; }
-.work { position: relative; z-index: 1; padding-top: clamp(24px, 4vw, 56px) !important; }
+/* Selected work starts inside the faded bottom of the globe, so there is no gap or edge between them. */
+section.work { position: relative; z-index: 1; margin-top: calc(-1 * clamp(60px, 10vh, 120px)); padding-top: 0; }
+
+/* Scroll handoff (browsers with scroll timelines): the globe drifts down slower than the page and
+   sinks back into the night, the intro lifts away, and the work heading and cards rise in. Only
+   transform and opacity move; with reduced motion, or without support, the page scrolls plainly. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    main { timeline-scope: --hero; }
+    .hero { view-timeline: --hero block; }
+    .scenes { animation: sink linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .hero-copy { animation: lift linear both; animation-timeline: --hero; animation-range: exit 0% exit 45%; }
+    /* The heading rises as the hero leaves, so it never sits on top of the globe at rest. */
+    .work > h2 { animation: rise linear both; animation-timeline: --hero; animation-range: exit 5% exit 55%; }
+    .work-grid { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+    @keyframes sink { to { transform: translateY(25%); opacity: 0; } }
+    @keyframes lift { to { transform: translateY(-48px); opacity: 0; } }
+    @keyframes rise { from { transform: translateY(70px); opacity: 0; } }
+  }
+}
 
 h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-size: clamp(2.3rem, 5vw, 4rem); }
 
@@ -230,9 +249,6 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
   font: 1.3rem/1.3 var(--hand); color: rgba(22, 24, 42, .72); text-align: center;
 }
 .snap-img img { width: 100%; height: 100%; object-fit: cover; }
-.tone-a { background: linear-gradient(160deg, #F6C9D4, #D9A6B9 55%, #8E7A6B); }
-.tone-b { background: linear-gradient(180deg, #A9D4EE, #CFE6F2 55%, #7B8A7A); }
-.tone-c { background: linear-gradient(200deg, #FFE1A8, #F2B880 60%, #9C6B4E); }
 .stamp {
   position: absolute; right: 22px; bottom: 20px;
   font: 600 1.05rem/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .08em;
@@ -305,3 +321,7 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
   .btn, .cover, .mail, .snap, .sky-day, body { transition: none; }
   .spot-star::after { animation: none; opacity: .8; }
 }
+
+/* Star cursor (matches the bright star in the hero). It brightens over anything clickable. */
+html { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'32'%20height%3D'32'%20viewBox%3D'0%200%2032%2032'%3E%3Ccircle%20cx%3D'16'%20cy%3D'16'%20r%3D'8'%20fill%3D'%23FFE7A0'%20opacity%3D'.38'%2F%3E%3Cpath%20d%3D'M16%203C17%2012%2020%2015%2029%2016C20%2017%2017%2020%2016%2029C15%2020%2012%2017%203%2016C12%2015%2015%2012%2016%203Z'%20fill%3D'%23FFF4CF'%20stroke%3D'%23A9750A'%20stroke-width%3D'1.3'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M22.5%208l2.2-2.2M9.5%208L7.3%205.8M22.5%2024l2.2%202.2M9.5%2024l-2.2%202.2'%20stroke%3D'%23E3A92A'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E") 16 16, auto; }
+a, button, .btn, .spot, .stack, .theme-mini, label[for] { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'32'%20height%3D'32'%20viewBox%3D'0%200%2032%2032'%3E%3Ccircle%20cx%3D'16'%20cy%3D'16'%20r%3D'11'%20fill%3D'%23FFD45C'%20opacity%3D'.38'%2F%3E%3Cpath%20d%3D'M16%203C17%2012%2020%2015%2029%2016C20%2017%2017%2020%2016%2029C15%2020%2012%2017%203%2016C12%2015%2015%2012%2016%203Z'%20fill%3D'%23FFD45C'%20stroke%3D'%23A9750A'%20stroke-width%3D'1.3'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M22.5%208l2.2-2.2M9.5%208L7.3%205.8M22.5%2024l2.2%202.2M9.5%2024l-2.2%202.2'%20stroke%3D'%23E3A92A'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E") 16 16, pointer; }

@@ -111,9 +111,21 @@
   let tipTimer = 0;
   function showTip(spot) {
     const b = spot.el.getBoundingClientRect(), s = stage.getBoundingClientRect();
-    const x = Math.min(s.width - 90, Math.max(90, b.left + b.width / 2 - s.left));
+    // Default: just above the hover area. Spots with data-tip ("x y", % of the artwork) point at a
+    // specific spot instead, e.g. the top of the alien's and the dog's heads.
+    let ax = b.left + b.width / 2, ay = b.top + b.height * 0.15;
+    if (spot.el.dataset.tip) {
+      const [px, py] = spot.el.dataset.tip.split(' ').map(Number);
+      const a = spot.el.closest('.art').getBoundingClientRect();
+      ax = a.left + (a.width * px) / 100;
+      ay = a.top + (a.height * py) / 100;
+    }
+    const x = Math.min(s.width - 90, Math.max(90, ax - s.left));
     tip.textContent = spot.label;
-    tip.style.transform = `translate(${x}px, ${Math.max(72, b.top - s.top + b.height * 0.15)}px)`;
+    // "right" puts the label beside the anchor (vertically centred) instead of above it.
+    const side = spot.el.dataset.tipSide === 'right';
+    tip.style.translate = side ? '12px -50%' : '';
+    tip.style.transform = `translate(${side ? ax - s.left : x}px, ${side ? ay - s.top : Math.max(72, ay - s.top)}px)`;
     tip.classList.add('on');
   }
   const hideTip = () => tip.classList.remove('on');
@@ -127,6 +139,13 @@
       spot.el.addEventListener('blur', hideTip);
       spot.el.addEventListener('click', (e) => {
         show();
+        // Spots with data-href (e.g. "Me") are links: colour in, then go to that section.
+        if (spot.el.dataset.href) {
+          hideTip();
+          const target = document.querySelector(spot.el.dataset.href);
+          if (target) { target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); history.replaceState(null, '', spot.el.dataset.href); }
+          return;
+        }
         if (e.pointerType !== 'mouse') { clearTimeout(tipTimer); tipTimer = setTimeout(hideTip, 1600); }
       });
     }
