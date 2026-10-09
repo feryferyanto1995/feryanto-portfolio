@@ -94,19 +94,18 @@ img, svg { display: block; }
 .art img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
 .art-colour { pointer-events: none; }
 
-/* Daytime sky: painted only where the night sky is (alpha mask cut from the artwork), and
-   spread outward from the bright star by a growing circle. */
-.sky-day {
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(#F3EFE6 2%, #CFE6F2 30%, #E3F1F7 62%, #F6EEDC);
-  -webkit-mask-image: url(assets/hero-sky-mask.webp), radial-gradient(circle var(--sun) at 81% 14.5%, #000 calc(100% - 1px), transparent 100%);
-  -webkit-mask-size: 100% 100%, auto; -webkit-mask-repeat: no-repeat; -webkit-mask-composite: source-in;
-  mask-image: url(assets/hero-sky-mask.webp), radial-gradient(circle var(--sun) at 81% 14.5%, #000 calc(100% - 1px), transparent 100%);
-  mask-size: 100% 100%, auto; mask-repeat: no-repeat; mask-composite: intersect;
-  transition: --sun 1.6s cubic-bezier(.65, 0, .35, 1);
-}
+/* Bright mode swaps in the daytime artwork (same scene, blue sky and clouds), and the hero
+   around it takes the colour of that sky so the copy sits in one continuous daytime sky. */
+.art-day { opacity: 0; pointer-events: none; transition: opacity .8s ease; }
+:root[data-theme="light"] .art-day { opacity: 1; }
+.stage { transition: background-color .8s ease; }
+:root[data-theme="light"] .stage { background-color: #72CFF5; }
+:root[data-theme="light"] .role { color: #1F3D4A; }
+/* The day sky is painted texture; a longer top fade blends it into the flat blue above. */
+:root[data-theme="light"] .art { -webkit-mask-image: linear-gradient(transparent, #000 3.5%); mask-image: linear-gradient(transparent, #000 3.5%); }
+
 /* During a theme switch the view transition does the animating, so everything underneath
-   (page colours, daylight sky, colour flood) jumps straight to its final state. */
+   (page colours, day artwork, colour flood) jumps straight to its final state. */
 .theme-switching, .theme-switching * { transition: none !important; }
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 @property --vt-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
@@ -114,8 +113,6 @@ img, svg { display: block; }
   -webkit-mask-image: radial-gradient(circle at var(--vt-x) var(--vt-y), #000 max(0px, calc(var(--vt-r) - 160px)), transparent var(--vt-r));
   mask-image: radial-gradient(circle at var(--vt-x) var(--vt-y), #000 max(0px, calc(var(--vt-r) - 160px)), transparent var(--vt-r));
 }
-@property --sun { syntax: "<length>"; inherits: false; initial-value: 0px; }
-:root[data-theme="light"] .sky-day { --sun: 3200px; }
 
 .spot {
   position: absolute; left: var(--x); top: var(--y); z-index: 2;
@@ -330,7 +327,7 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .reveal { transform: none; transition: opacity .3s linear; }
-  .btn, .cover, .mail, .snap, .sky-day, body { transition: none; }
+  .btn, .cover, .mail, .snap, .art-day, .stage, body { transition: none; }
   .spot-star::after { animation: none; opacity: .8; }
 }
 
