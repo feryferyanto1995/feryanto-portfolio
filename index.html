@@ -109,7 +109,13 @@
         <p class="stack-hint" aria-live="polite">Tap the photo to shuffle</p>
       </div>
       <div class="about-text reveal">
-        <h2>About me</h2>
+        <div class="about-head">
+          <h2>About me</h2>
+          <picture class="about-ufo">
+            <source srcset="assets/ufo-still.webp" media="(prefers-reduced-motion: reduce)">
+            <img src="assets/ufo.webp" width="240" height="280" alt="" loading="lazy" decoding="async">
+          </picture>
+        </div>
         <p>Write two or three sentences here about who you are, what kind of problems you like, and how you approach them.</p>
         <p>Add a second, more personal paragraph: what you do outside work, or what got you into UX.</p>
         <h3 class="xp-title">Where I've worked</h3>
@@ -123,11 +129,19 @@
 
     <section id="contact" class="contact">
       <h2 class="reveal">Got a project in mind?</h2>
-      <a class="mail reveal" href="mailto:feryferyanto1995@gmail.com">feryferyanto1995@gmail.com</a>
-      <ul class="links reveal">
-        <li><a href="https://www.linkedin.com/in/feryferyanto/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="#">Resume (PDF)</a></li>
-      </ul>
+      <div class="contact-body">
+        <div class="contact-text">
+          <a class="mail reveal" href="mailto:feryferyanto1995@gmail.com">feryferyanto1995@gmail.com</a>
+          <ul class="links reveal">
+            <li><a href="https://www.linkedin.com/in/feryferyanto/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="#">Resume (PDF)</a></li>
+          </ul>
+        </div>
+        <picture class="jeep reveal">
+          <source srcset="assets/collie-jeep-still.webp" media="(prefers-reduced-motion: reduce)">
+          <img src="assets/collie-jeep.webp" width="720" height="402" alt="A border collie waving from the window of a red jeep" loading="lazy" decoding="async">
+        </picture>
+      </div>
     </section>
   </main>
 
