@@ -5,6 +5,7 @@
   --chalk: #F4F1E8;
   --mute: #ADABA2;
   --star: #FFD45C;
+  --body: #CDD0E0; /* paragraph text */
   --accent: var(--star); /* accent for lines and text; darker in bright mode for contrast */
   --line: rgba(244, 241, 232, .38);
   --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
@@ -23,6 +24,7 @@
   --mute: #5C5A52;
   --line: rgba(30, 31, 33, .32);
   --accent: #9A6700;
+  --body: #3A3B3F;
   color-scheme: light;
 }
 
@@ -221,7 +223,7 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 .project-link:hover .cover { transform: translateY(-6px) rotate(-1deg); border-color: var(--accent); }
 .project h3 { margin: 22px 0 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; }
 .project-link:hover h3 { text-decoration: underline wavy var(--accent) 1.5px; text-underline-offset: 7px; }
-.project p { margin: 0; color: #CDD0E0; max-width: 46ch; }
+.project p { margin: 0; color: var(--body); max-width: 46ch; }
 .project .meta { margin-top: 10px; font: 1.15rem var(--hand); color: var(--mute); }
 
 .about { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: start; }
@@ -267,7 +269,7 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 .about-head { display: flex; align-items: flex-start; gap: clamp(12px, 2vw, 28px); }
 .about-ufo { flex: none; width: clamp(92px, 9vw, 140px); margin: -18px 0 -8px; pointer-events: none; }
 .about-ufo img { width: 100%; height: auto; }
-.about-text p { margin: 22px 0 0; color: #CDD0E0; max-width: 58ch; }
+.about-text p { margin: 22px 0 0; color: var(--body); max-width: 58ch; }
 .xp-title { margin: 48px 0 0; font-size: 1.25rem; font-weight: 700; }
 .xp { list-style: none; margin: 18px 0 0; padding: 0 0 0 26px; border-left: 2px dashed var(--line); }
 .xp li { position: relative; display: grid; grid-template-columns: 1fr 1fr auto; gap: 4px 16px; padding: 14px 0; }
