@@ -247,3 +247,103 @@
 
 // Reduced motion: don't autoplay cover videos.
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('.cover video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+
+// Case-study sheet: a project link with a real page opens it in a sheet that slides up over the
+// portfolio (dimmed behind). The URL gets a #hash (#mindline), so Back closes it, Forward and a
+// shared link reopen it; a pushed path would make the page's relative URLs resolve wrongly.
+(() => {
+  const links = document.querySelectorAll('.project-link[href]:not([href="#"])');
+  if (!links.length) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const behind = [...document.querySelectorAll('body > header, body > main, body > footer')];
+  const main = document.querySelector('main');
+  const home = location.href.split('#')[0];
+  const keyOf = (link) => link.pathname.split('/').filter(Boolean).pop();
+  const linkFor = (hash) => [...links].find((l) => hash === `#${keyOf(l)}`);
+  const backdrop = Object.assign(document.createElement('div'), { className: 'sheet-backdrop' });
+  const sheet = Object.assign(document.createElement('div'), { className: 'sheet', hidden: true });
+  sheet.setAttribute('role', 'dialog');
+  sheet.setAttribute('aria-modal', 'true');
+  sheet.innerHTML = '<div class="sheet-bar"><button type="button" class="sheet-back">&larr; Back</button>'
+    + '<span class="sheet-title"></span><a class="sheet-full" target="_blank" rel="noopener">Open full page &nearr;</a></div>';
+  backdrop.hidden = true;
+  document.body.append(backdrop, sheet);
+  let frame = null, frameFor = null, frameReady = null, opening = false;
+  const title = sheet.querySelector('.sheet-title');
+  const full = sheet.querySelector('.sheet-full');
+  let opener = null;
+
+  // Load the case study on hover or focus, so the sheet slides up with the page already drawn.
+  // A fresh iframe each time: changing an existing iframe's src would add entries to the
+  // browser's Back history, so Back would step through the iframe instead of closing the sheet.
+  function preload(link) {
+    if (frame && frameFor === link.href) return;
+    frame?.remove();
+    frame = Object.assign(document.createElement('iframe'), { className: 'sheet-frame', src: link.href });
+    frameFor = link.href;
+    frameReady = new Promise((resolve) => frame.addEventListener('load', resolve, { once: true }));
+    sheet.append(frame);
+  }
+
+  async function open(link, push = true) {
+    if (opening || !sheet.hidden) return;
+    opening = true;
+    const name = link.querySelector('h3')?.textContent.trim() || 'Case study';
+    opener = link;
+    title.textContent = name;
+    sheet.setAttribute('aria-label', name);
+    preload(link);
+    frame.title = `${name} case study`;
+    full.href = link.href;
+    // Usually loaded already from the hover; on a slow line, wait at most 700ms before sliding.
+    await Promise.race([frameReady, new Promise((resolve) => setTimeout(resolve, 700))]);
+    opening = false;
+    // Shrink the page a touch toward the middle of what's on screen, like it's being set down.
+    main.style.transformOrigin = `50% ${scrollY + innerHeight / 2}px`;
+    backdrop.hidden = sheet.hidden = false;
+    behind.forEach((el) => { el.inert = true; });
+    document.documentElement.classList.add('sheet-lock');
+    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('sheet-open')));
+    // The case study then animates its hero in (it waits for this message, inside the sheet only).
+    const shown = frame;
+    frameReady.then(() => shown.contentWindow?.postMessage('sheet:reveal', location.origin));
+    if (push) history.pushState({ sheet: true }, '', `#${keyOf(link)}`);
+    sheet.querySelector('.sheet-back').focus({ preventScroll: true });
+  }
+
+  function close(fromHistory) {
+    if (sheet.hidden) return;
+    document.documentElement.classList.remove('sheet-open');
+    behind.forEach((el) => { el.inert = false; });
+    const done = () => {
+      if (document.documentElement.classList.contains('sheet-open')) return; // reopened mid-close
+      backdrop.hidden = sheet.hidden = true;
+      frame?.remove();
+      frame = frameFor = null;
+      // Focus was inside the iframe (Esc pressed there), so it drops to <body> once the iframe goes.
+      if (document.activeElement === document.body) opener?.focus({ preventScroll: true });
+      document.documentElement.classList.remove('sheet-lock');
+      main.style.transformOrigin = '';
+    };
+    if (reduce) done();
+    else sheet.addEventListener('transitionend', function end(e) { if (e.target === sheet) { sheet.removeEventListener('transitionend', end); done(); } });
+    opener?.focus({ preventScroll: true });
+    if (!fromHistory) history.state?.sheet ? history.back() : history.replaceState(null, '', home);
+  }
+
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // let new-tab clicks through
+      e.preventDefault();
+      open(link);
+    });
+    ['pointerenter', 'focus', 'touchstart'].forEach((type) => link.addEventListener(type, () => sheet.hidden && preload(link), { passive: true }));
+  });
+  sheet.querySelector('.sheet-back').addEventListener('click', () => close());
+  backdrop.addEventListener('click', () => close());
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  addEventListener('popstate', () => { const l = linkFor(location.hash); l ? open(l, false) : close(true); });
+  if (linkFor(location.hash)) open(linkFor(location.hash), false);
+  // Esc pressed inside the case study (same origin) arrives as a message.
+  addEventListener('message', (e) => { if (e.origin === location.origin && e.data === 'sheet:close') close(); });
+})();

@@ -5,28 +5,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mindline.sg: from stretched to supported | Feryanto</title>
 <meta name="description" content="A UX case study: redesigning how a burnt-out caregiver reaches a real counsellor on mindline.sg at 3am, from 14 screens and two consent walls to 5 screens and none.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<script>
+  // Inside the portfolio's sheet: hide this page's nav (the sheet has its own bar) and let Esc close the sheet.
+  if (window.top !== window) {
+    document.documentElement.classList.add("in-sheet");
+    addEventListener("keydown", (e) => { if (e.key === "Escape") parent.postMessage("sheet:close", location.origin); });
+    // Hold the hero back until the sheet starts sliding up, then let it rise in (see .pre-reveal).
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("pre-reveal");
+      const reveal = () => document.documentElement.classList.remove("pre-reveal");
+      addEventListener("message", (e) => { if (e.origin === location.origin && e.data === "sheet:reveal") reveal(); });
+      setTimeout(reveal, 3000); // never leave it hidden if the message is missed
+    }
+  }
+  try { if (localStorage.getItem("feryanto-theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+  // The journey video autoplays, except for visitors who ask for reduced motion.
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) addEventListener("DOMContentLoaded", () => document.querySelectorAll("video[autoplay]").forEach((v) => { v.autoplay = false; v.pause(); }));
+</script>
 <style>
-@font-face{font-family:"Proza Libre";font-weight:400;src:url(fonts/proza-400.woff2) format("woff2")}
-@font-face{font-family:"Proza Libre";font-weight:500;src:url(fonts/proza-500.woff2) format("woff2")}
-@font-face{font-family:"Proza Libre";font-weight:700;src:url(fonts/proza-700.woff2) format("woff2")}
+:root {
+  --night: #1E1F21;
+  --night-2: #2A2B2E;
+  --ink: #18181A;
+  --chalk: #F4F1E8;
+  --mute: #ADABA2;
+  --star: #FFD45C;
+  --body: #CDD0E0; /* paragraph text */
+  --accent: var(--star); /* accent for lines and text; darker in bright mode for contrast */
+  --line: rgba(244, 241, 232, .38);
+  --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --wobble-2: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --hand: "Patrick Hand", "Comic Sans MS", cursive;
+  --gutter: max(16px, 6vw);
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  color-scheme: dark;
+}
+/* Bright mode, toggled by the bright star in the hero. */
+:root[data-theme="light"] {
+  --night: #F3EFE6;
+  --night-2: #E6E0D2;
+  --chalk: #1E1F21;
+  --mute: #5C5A52;
+  --line: rgba(30, 31, 33, .32);
+  --accent: #9A6700;
+  --body: #3A3B3F;
+  color-scheme: light;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{width:1440px;background:#fff;color:#000;font:400 17px/24px "Proza Libre",Georgia,serif}
+body{width:1440px;background:#fff;color:#000;font:400 17px/24px var(--display)}
 .page{width:1440px;background:#fff}
 .wrap{width:1312px;margin:0 auto}
 p{color:#23272C}
 .muted{color:#838383}
-.eyebrow{display:flex;align-items:center;gap:10px;font:700 15px/20px "Proza Libre";color:#000}
+.eyebrow{display:flex;align-items:center;gap:10px;font:700 15px/20px var(--display);color:#000}
 .dot{width:10px;height:10px;border-radius:50%;flex:none}
-.sec-title{font:500 48px/54px "Proza Libre";color:#000}
-.h2{font:500 32px/38.4px "Proza Libre"}
-.h3{font:500 24px/28.8px "Proza Libre"}
-.quote{font:400 20px/28px "Proza Libre"}
-.small{font:400 14px/20px "Proza Libre"}
+.sec-title{font:500 48px/54px var(--display);color:#000}
+.h2{font:500 32px/38.4px var(--display)}
+.h3{font:500 24px/28.8px var(--display)}
+.quote{font:400 20px/28px var(--display)}
+.small{font:400 14px/20px var(--display)}
 .card{border-radius:15px}
-.pill{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 28px;border-radius:999px;font:700 14px/1 "Proza Libre"}
+.pill{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 28px;border-radius:999px;font:700 14px/1 var(--display)}
 .pill.ink{background:#23272C;color:#fff}
 .pill.help{background:#fff;color:#23272C;border:2px solid #A974E5}
-.chip{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;border:3px solid #E8E8E8;font:700 14px/1 "Proza Libre";color:#23272C;background:#fff}
+.chip{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;border:3px solid #E8E8E8;font:700 14px/1 var(--display);color:#23272C;background:#fff}
 .chip.sel{background:#23272C;border-color:#23272C;color:#fff}
 /* phone */
 .phone{border:9px solid #23272C;border-radius:42px;overflow:hidden;background:#23272C;flex:none}
@@ -34,36 +80,36 @@ p{color:#23272C}
 .phone img{display:block;width:100%}
 .thumb{border-radius:12px;overflow:hidden;border:2px solid #E8E8E8;background:#fff}
 .thumb img{display:block;width:100%}
-.tag{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;font:700 12px/1 "Proza Libre"}
+.tag{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;font:700 12px/1 var(--display)}
 
 /* NAV */
 .nav{height:80px;background:#fff;box-shadow:0 2px 4px 0 rgba(0,0,0,.15)}
 .nav .wrap{height:80px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:12px;font:700 15px/1 "Proza Libre"}
+.brand{display:flex;align-items:center;gap:12px;font:700 15px/1 var(--display)}
 .brand img{width:36px;height:36px}
-.links{display:flex;align-items:center;gap:36px;font:700 15px/1 "Proza Libre"}
+.links{display:flex;align-items:center;gap:36px;font:700 15px/1 var(--display)}
 .links .on{padding:10px 18px;border-radius:999px;background:#F0E1FF}
 
 /* HERO */
 .hero{background:linear-gradient(239.89deg,#F9EAE9 13.06%,#FEFAF1 54.4%,#FFFDF2 67.56%,#EFFEFF 93.45%);padding:96px 0 0}
 .hero .wrap{display:flex;gap:56px;align-items:flex-end}
 .hero-l{width:700px;padding-bottom:96px}
-.hero h1{font:500 76px/80px "Proza Libre";margin:28px 0 28px}
-.hero .lede{font:400 22px/32px "Proza Libre";color:#23272C;width:620px}
+.hero h1{font:500 76px/80px var(--display);margin:28px 0 28px}
+.hero .lede{font:400 22px/32px var(--display);color:#23272C;width:620px}
 .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px;padding-top:28px;border-top:2px solid #000}
-.meta b{display:block;font:700 14px/20px "Proza Libre";margin-bottom:6px}
-.meta span{font:400 15px/22px "Proza Libre";color:#23272C}
+.meta b{display:block;font:700 14px/20px var(--display);margin-bottom:6px}
+.meta span{font:400 15px/22px var(--display);color:#23272C}
 .hero-r{position:relative;width:556px;height:700px}
 .hero-r .phone{position:absolute;left:40px;top:30px;width:300px}
 .hero-r .ill{position:absolute;right:0;bottom:60px;width:230px}
 .clock{position:absolute;right:10px;top:90px;background:#fff;border-radius:15px;padding:18px 22px;width:180px}
-.clock .t{font:500 40px/44px "Proza Libre"}
+.clock .t{font:500 40px/44px var(--display)}
 
 /* INTRO */
 .intro{padding:120px 0 40px}
 .intro .wrap{display:grid;grid-template-columns:320px 1fr;gap:96px;align-items:start}
 .intro .eyebrow{margin-top:14px}
-.intro .big{font:500 36px/46px "Proza Libre"}
+.intro .big{font:500 36px/46px var(--display)}
 .intro .big em{font-style:normal;color:#A974E5}
 .intro p.body{margin-top:28px;width:760px}
 
@@ -72,8 +118,8 @@ p{color:#23272C}
 .stories{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
 .story{padding:48px 56px;min-height:420px;display:flex;flex-direction:column;gap:20px}
 .story .row{display:flex;gap:32px;margin-top:auto}
-.story .n{font:500 44px/48px "Proza Libre"}
-.src{font:400 12px/18px "Proza Libre";color:#838383}
+.story .n{font:500 44px/48px var(--display)}
+.src{font:400 12px/18px var(--display);color:#838383}
 
 /* RACHEL */
 .rachel{padding:0 0 120px}
@@ -85,16 +131,16 @@ p{color:#23272C}
 .persona li:before{content:"";width:8px;height:8px;border-radius:50%;background:#F3A25F;margin-top:8px;flex:none}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .stat{padding:40px 44px;display:flex;flex-direction:column;gap:10px;min-height:250px}
-.stat .n{font:500 60px/64px "Proza Libre"}
+.stat .n{font:500 60px/64px var(--display)}
 .drop{grid-column:span 2;background:#E9ECFB;padding:40px 44px;display:flex;align-items:center;gap:48px}
-.drop .nums{display:flex;align-items:center;gap:16px;font:500 52px/56px "Proza Libre";flex:none;white-space:nowrap}
+.drop .nums{display:flex;align-items:center;gap:16px;font:500 52px/56px var(--display);flex:none;white-space:nowrap}
 .drop > div:last-child{flex:1}
-.drop .arrow{font:400 40px/1 "Proza Libre";color:#637DF9}
+.drop .arrow{font:400 40px/1 var(--display);color:#637DF9}
 
 /* HMW */
 .hmw{padding:0 0 140px}
 .hmw .box{background:linear-gradient(262deg,#FFF9D6 0%,#F9EAE9 97.77%);border-radius:15px;padding:72px 80px;display:flex;align-items:center;gap:64px}
-.hmw .q{font:500 40px/50px "Proza Libre"}
+.hmw .q{font:500 40px/50px var(--display)}
 .hmw img{width:220px}
 
 /* BEFORE */
@@ -105,16 +151,16 @@ p{color:#23272C}
 .film{display:grid;grid-template-columns:repeat(14,1fr);gap:8px;margin-top:56px}
 .film .f{display:flex;flex-direction:column;gap:8px}
 .film .f .thumb{border:2px solid #34373D;height:190px}
-.film .f span{font:700 12px/1 "Proza Libre";color:#8D9099}
+.film .f span{font:700 12px/1 var(--display);color:#8D9099}
 .film .f.hot .thumb{border-color:#E08789}
 .film .f.hot span{color:#E08789}
 .bnums{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:56px}
 .bn{border-top:2px solid #34373D;padding-top:20px}
-.bn .n{font:500 56px/60px "Proza Libre";color:#fff}
+.bn .n{font:500 56px/60px var(--display);color:#fff}
 .moments{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:96px}
 .moment{display:flex;flex-direction:column;gap:20px}
 .moment .phone{width:300px;border-color:#34373D;background:#34373D}
-.moment .time{font:700 14px/1 "Proza Libre";color:#E08789}
+.moment .time{font:700 14px/1 var(--display);color:#E08789}
 .moment .h3{color:#fff}
 .longscroll{margin-top:24px;background:#25282D;border-radius:15px;padding:48px 56px;display:grid;grid-template-columns:1fr 520px;gap:56px;align-items:center}
 .strip{height:360px;overflow:hidden;border-radius:12px;position:relative;display:flex;gap:12px}
@@ -126,7 +172,7 @@ p{color:#23272C}
 .principles{padding:120px 0 120px}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
 .pr{padding:48px 44px;min-height:320px;display:flex;flex-direction:column;gap:16px}
-.pr .k{font:500 64px/1 "Proza Libre";color:rgba(0,0,0,.12)}
+.pr .k{font:500 64px/1 var(--display);color:rgba(0,0,0,.12)}
 
 /* REDESIGN */
 .redesign{padding:0 0 120px}
@@ -139,7 +185,7 @@ p{color:#23272C}
 .feature ul{list-style:none;display:flex;flex-direction:column;gap:14px}
 .feature li{display:flex;gap:14px;color:#23272C}
 .feature li:before{content:"";width:8px;height:8px;border-radius:50%;background:#A974E5;margin-top:8px;flex:none}
-.step{font:700 14px/1 "Proza Libre";color:#A974E5}
+.step{font:700 14px/1 var(--display);color:#A974E5}
 .trio{margin-top:96px;background:#F7F0FF;border-radius:15px;padding:64px 56px}
 .trio .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
 .trio .col{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
@@ -166,26 +212,26 @@ p{color:#23272C}
 .ctable{margin-top:48px;border-radius:15px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr 1fr}
 .cell{padding:36px 40px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #E4E4E4}
 .cell:last-child{border-right:none}
-.cell .was{font:400 22px/1 "Proza Libre";color:#838383;text-decoration:line-through}
-.cell .now{font:500 64px/68px "Proza Libre"}
+.cell .was{font:400 22px/1 var(--display);color:#838383;text-decoration:line-through}
+.cell .now{font:500 64px/68px var(--display)}
 
 /* CHANNELS */
 .channels{padding:120px 0 120px;background:#F8F7F7}
 .cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
 .ch{background:#fff;border-radius:15px;padding:44px;display:flex;flex-direction:column;gap:16px;min-height:380px}
-.ch .ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 22px/1 "Proza Libre"}
+.ch .ico{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 22px/1 var(--display)}
 .path{margin-top:24px;background:#fff;border-radius:15px;padding:36px 44px;display:flex;align-items:center;gap:20px}
 .path .s{flex:1;display:flex;flex-direction:column;gap:6px}
-.path .s b{font:700 14px/1 "Proza Libre";color:#A974E5}
-.path .ar{font:400 28px/1 "Proza Libre";color:#838383}
+.path .s b{font:700 14px/1 var(--display);color:#A974E5}
+.path .ar{font:400 28px/1 var(--display);color:#838383}
 .adcopy{margin-top:24px;display:flex;align-items:center;gap:32px;background:#23272C;border-radius:15px;padding:40px 56px;color:#fff}
-.adcopy .quote{font:500 30px/38px "Proza Libre";color:#fff}
+.adcopy .quote{font:500 30px/38px var(--display);color:#fff}
 
 /* IMPACT */
 .impact{padding:120px 0}
 .igrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px}
 .im{border-radius:15px;padding:40px 36px;min-height:280px;display:flex;flex-direction:column;gap:12px}
-.im .n{font:500 56px/60px "Proza Libre"}
+.im .n{font:500 56px/60px var(--display)}
 .measure{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .measure .card{padding:44px;border:3px solid #E8E8E8;display:flex;flex-direction:column;gap:14px}
 
@@ -194,7 +240,7 @@ p{color:#23272C}
 .reflect .wrap{display:grid;grid-template-columns:420px 1fr;gap:96px}
 .lessons{display:flex;flex-direction:column}
 .lesson{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:32px 0;border-top:2px solid #000}
-.lesson .k{font:500 32px/1 "Proza Libre"}
+.lesson .k{font:500 32px/1 var(--display)}
 .next{margin-top:48px;background:#DAF6EB;border-radius:15px;padding:44px 56px;display:flex;justify-content:space-between;align-items:center;gap:40px}
 
 /* FOOTER */
@@ -202,7 +248,7 @@ p{color:#23272C}
 .foot .top{display:grid;grid-template-columns:1fr 1fr;gap:96px;padding-bottom:72px}
 .team{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .crisis{background:#F9EAE9;border-top:1px solid rgba(0,0,0,.08)}
-.crisis .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;font:700 12px/20px "Proza Libre"}
+.crisis .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;font:700 12px/20px var(--display)}
 
 /* ---- web: no black surfaces (Figma pass 2), then responsive ---- */
 html{scroll-behavior:smooth}
@@ -229,7 +275,55 @@ a{color:inherit;text-decoration:none}
 .path{align-items:flex-start}
 .journey{display:block;width:100%;aspect-ratio:16/9;margin-top:56px;border-radius:15px;background:#F9EAE9}
 .hero-l,.hero .lede,.intro p.body,.feature .stage .phone,.phone{max-width:100%}
+.flow{margin-top:48px;background:#F7F0FF;border-radius:15px;padding:64px 56px;display:grid;grid-template-columns:repeat(3,1fr);gap:56px 40px}
+.flow .col{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.flow .phone{width:226px}
+.flow .h3{margin-top:10px}
+.rachel{padding-top:96px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ---- portfolio theme: night + stars, Bricolage, Patrick Hand labels, star accent ---- */
+body{font-family:var(--display);-webkit-font-smoothing:antialiased}
+.hero h1,.sec-title,.h2,.h3,.stat .n,.bn .n,.im .n,.cell .now,.pr .k,.lesson .k,.story .n{font-family:var(--display);font-weight:700;letter-spacing:-.025em}
+.hero h1{font-weight:800;letter-spacing:-.035em}
+.eyebrow,.step,.src,.meta b,.small.muted,.clock .small,.adcopy .small,.foot .eyebrow,.flow .h3 + p + .src{font-family:var(--hand);font-weight:400;letter-spacing:0}
+.eyebrow{font-size:20px;line-height:24px}
+.step{font-size:18px}
+.src{font-size:15px;line-height:20px}
+.meta b{font-size:18px}
+::selection{background:var(--star);color:var(--ink)}
+:focus-visible{outline:3px dashed var(--accent);outline-offset:4px}
+.nav{background:var(--night);color:var(--chalk);box-shadow:none;border-bottom:1px solid var(--line)}
+.brand{font:800 20px/1 var(--display);letter-spacing:-.02em}
+.brand img{display:none}
+.links a{font-weight:500}
+.links a:hover,.brand:hover{text-decoration:underline wavy var(--accent) 1.5px;text-underline-offset:6px}
+.in-sheet .nav{display:none}
+.in-sheet [id]{scroll-margin-top:0}
+/* reveal inside the sheet: hero rises in, staggered, once the sheet starts sliding (same curve as the reference) */
+.in-sheet .hero-l > *,.in-sheet .hero-r > *{transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.in-sheet .hero-l > :nth-child(2){transition-delay:.06s}
+.in-sheet .hero-l > :nth-child(3){transition-delay:.12s}
+.in-sheet .hero-l > :nth-child(4){transition-delay:.18s}
+.in-sheet .hero-r > .phone{transition-delay:.14s}
+.in-sheet .hero-r > .clock{transition-delay:.26s}
+.in-sheet .hero-r > .ill{transition-delay:.34s}
+.pre-reveal .hero-l > *{opacity:0;transform:translateY(28px)}
+.pre-reveal .hero-r > .phone{opacity:0;transform:translateY(80px) rotate(-7deg)}
+.pre-reveal .hero-r > .clock{opacity:0;transform:translateY(40px) rotate(6deg)}
+.pre-reveal .hero-r > .ill{opacity:0;transform:translateX(30px)}
+/* hero keeps its Figma colours (gradient, ink text); only the footer goes night */
+.foot{background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='640'><circle cx='153' cy='585' r='1.1' fill='%23C9B6FF' opacity='0.71'/><circle cx='548' cy='231' r='0.5' fill='%23fff' opacity='0.28'/><circle cx='623' cy='340' r='0.9' fill='%23fff' opacity='0.52'/><circle cx='498' cy='499' r='0.9' fill='%23fff' opacity='0.49'/><circle cx='232' cy='308' r='0.6' fill='%23fff' opacity='0.62'/><circle cx='229' cy='114' r='1.4' fill='%23fff' opacity='0.31'/><circle cx='292' cy='69' r='0.6' fill='%23fff' opacity='0.56'/><circle cx='54' cy='388' r='1.3' fill='%23fff' opacity='0.38'/><circle cx='226' cy='200' r='1.0' fill='%23fff' opacity='0.61'/><circle cx='101' cy='559' r='1.1' fill='%23fff' opacity='0.44'/><circle cx='310' cy='114' r='0.7' fill='%23fff' opacity='0.71'/><circle cx='315' cy='112' r='0.9' fill='%23C9B6FF' opacity='0.34'/><circle cx='443' cy='486' r='0.6' fill='%23fff' opacity='0.52'/><circle cx='565' cy='238' r='0.9' fill='%23fff' opacity='0.57'/><circle cx='322' cy='308' r='1.2' fill='%23fff' opacity='0.73'/><circle cx='566' cy='133' r='0.7' fill='%23fff' opacity='0.72'/><circle cx='134' cy='33' r='0.8' fill='%23fff' opacity='0.66'/><circle cx='135' cy='326' r='1.2' fill='%23fff' opacity='0.46'/><circle cx='225' cy='132' r='1.3' fill='%23fff' opacity='0.35'/><circle cx='448' cy='282' r='0.7' fill='%23fff' opacity='0.51'/><circle cx='64' cy='247' r='0.9' fill='%23fff' opacity='0.63'/><circle cx='495' cy='148' r='1.1' fill='%23C9B6FF' opacity='0.54'/><circle cx='475' cy='527' r='1.0' fill='%23C9B6FF' opacity='0.68'/><circle cx='478' cy='279' r='1.4' fill='%23fff' opacity='0.71'/><circle cx='180' cy='543' r='1.2' fill='%23fff' opacity='0.74'/><circle cx='19' cy='566' r='0.7' fill='%23fff' opacity='0.74'/><circle cx='592' cy='534' r='1.1' fill='%23fff' opacity='0.53'/><circle cx='119' cy='17' r='0.5' fill='%23fff' opacity='0.32'/><circle cx='56' cy='234' r='0.9' fill='%23fff' opacity='0.75'/><circle cx='354' cy='324' r='0.9' fill='%23C9B6FF' opacity='0.52'/><circle cx='433' cy='150' r='0.9' fill='%23fff' opacity='0.34'/><circle cx='479' cy='276' r='0.6' fill='%23C9B6FF' opacity='0.71'/><circle cx='376' cy='98' r='1.3' fill='%23fff' opacity='0.44'/><circle cx='296' cy='172' r='0.8' fill='%23fff' opacity='0.59'/></svg>") 0 0 / 640px 640px,var(--night);color:var(--chalk)}
+.foot .quote,.foot .eyebrow{color:var(--chalk)!important}
+.foot .small.muted{color:var(--body)}
+.clock{color:var(--ink);border-radius:var(--wobble)}
+.foot .chip{background:transparent;border:1.5px solid var(--line);color:var(--chalk);border-radius:var(--wobble)}
+.foot .chip.sel{background:var(--star);border-color:var(--star);color:var(--ink)}
+.crisis{background:var(--night-2);color:var(--chalk);border-top:1px solid var(--line)}
+.chip{border-radius:var(--wobble)}
+.shortcut{background:var(--star)}
+.lesson{border-top:1.5px dashed var(--ink)}
+.lesson[style]{border-bottom:1.5px dashed var(--ink)!important}
 
 @media (max-width:1200px){
   .hero .wrap{flex-direction:column;align-items:stretch}
@@ -246,6 +340,7 @@ a{color:inherit;text-decoration:none}
   .care .row{grid-template-columns:repeat(3,1fr)}
   .igrid,.bnums,.ctable{grid-template-columns:1fr 1fr}
   .pair{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr;padding:48px 32px}
   .cell:nth-child(2){border-right:none}
   .cell:nth-child(-n+2){border-bottom:1px solid #E4E4E4}
   .film{grid-template-columns:repeat(7,1fr)}
@@ -284,6 +379,9 @@ a{color:inherit;text-decoration:none}
   .film{grid-template-columns:repeat(14,96px);overflow-x:auto;padding-bottom:8px}
   .feature .stage{height:auto;padding:40px 0}
   .feature .stage .phone{width:260px}
+  .flow{grid-template-columns:1fr;padding:40px 24px;gap:48px}
+  .rachel{padding-top:56px}
+  .principles .sec-title{font-size:26px;line-height:32px}
   .crisis .wrap{height:auto;padding:14px 20px;flex-direction:column;align-items:flex-start;gap:4px}
 }
 </style>
@@ -317,44 +415,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </div></div>
 
-<!-- INTRO -->
-<div class="intro"><div class="wrap">
-  <div class="eyebrow"><span class="dot" style="background:#E08789"></span>Why I cared about this one</div>
-  <div>
-    <p class="big">The easiest door to open at 11pm is a chatbot. It always agrees with you, and nobody is accountable. I wanted <em>the safest door</em> to be just as easy to open.</p>
-    <p class="body">Singapore already has a safe front door: mindline.sg and the national 1771 line. The help exists. Our sprint asked why so few stressed people actually reach it, and what it would take for them to reach a person within minutes.</p>
-  </div>
-</div></div>
-
-<!-- STAKES -->
-<div class="stakes" id="problem"><div class="wrap">
-  <div class="eyebrow"><span class="dot" style="background:#62B4DC"></span>The stakes</div>
-  <h2 class="sec-title" style="margin-top:16px;max-width:900px">When a chatbot plays doctor</h2>
-  <div class="stories">
-    <div class="story card" style="background:#F9EAE9">
-      <div class="small muted">In the US · as alleged in a lawsuit</div>
-      <div class="h3">A 31-year-old engineer with epilepsy tapered off her medication on a chatbot’s plan. Her parents are now suing.</div>
-      <p>She raised her concerns 158 times, and each time the bot reassured her.</p>
-      <div class="row">
-        <div><div class="n">1,500+</div><div class="small">messages a week</div></div>
-        <div><div class="n">158</div><div class="small">concerns she raised</div></div>
-        <div><div class="n">0 mg</div><div class="small">the taper it drafted</div></div>
-      </div>
-    </div>
-    <div class="story card" style="background:#E4FEFF">
-      <div class="small muted">Closer to home · Singapore</div>
-      <div class="h3">IMH is seeing patients tipped into delusions by heavy chatbot use.</div>
-      <p>Bots echo what users say, which can deepen anxious or distorted thinking. Doctors say a chatbot cannot replace human connection.</p>
-      <div class="row">
-        <div><div class="n">5</div><div class="small">patients one IMH psychosis specialist now sees whose mental health worsened with AI use</div></div>
-      </div>
-      <div class="src">Sources: Mothership, Oct 2026 · CNA, Mar 2026. The US case is an allegation in an ongoing lawsuit.</div>
-    </div>
-  </div>
-</div></div>
-
 <!-- RACHEL -->
-<div class="rachel"><div class="wrap">
+<div class="rachel" id="problem"><div class="wrap">
   <div class="persona card">
     <img class="ill" src="img/need-caregiving.png" alt="">
     <div class="small muted">Illustrative persona</div>
@@ -372,44 +434,15 @@ a{color:inherit;text-decoration:none}
     <div class="stat card" style="background:#FFEFEE"><div class="n">66%</div><p>of working parents report burnout, vs 45% of all workers</p><div class="src">Jobstreet 2025</div></div>
     <div class="stat card" style="background:#DAF6EB"><div class="n">1 in 2</div><p>caregivers say they are “burdened” or “barely coping”</p><div class="src">NCSS</div></div>
     <div class="stat card" style="background:#FFF9D6"><div class="n">+50%</div><p>rise in suicide deaths among 30–39s in 2024, the only age group to rise</p><div class="src">SOS / ICA, 2026</div></div>
-    <div class="drop card">
-      <div class="nums">70.9% <span class="arrow">→</span> 59.6%</div>
-      <div><div class="h3">They still want help, but less of it from professionals</div><p style="margin-top:8px">Share of 30–39s who would see a professional, 2024 to 2025. Turning to friends and family held at 84.5%.</p><div class="src" style="margin-top:8px">MOH National Population Health Survey 2025, Table 8.4</div></div>
-    </div>
   </div>
 </div></div>
-
-<!-- HMW -->
-<div class="hmw"><div class="wrap"><div class="box">
-  <img src="img/lets-talk.png" alt="">
-  <div>
-    <div class="eyebrow"><span class="dot" style="background:#F3A25F"></span>Our challenge</div>
-    <p class="q" style="margin-top:20px;color:#000">How might we help sandwiched millennials who are stressed, but not in crisis, find and start the right mindline.sg support within minutes?</p>
-  </div>
-</div></div></div>
 
 <!-- BEFORE -->
 <div class="before" id="test"><div class="wrap">
   <div class="eyebrow"><span class="dot" style="background:#E08789"></span>I tried it myself · emulated iPhone, dark mode</div>
   <h2 class="sec-title" style="margin-top:16px;max-width:1000px">I typed “I need help” into Google and counted every screen until it reaches a counsellor.</h2>
   <p style="margin-top:20px;max-width:820px">I captured the real journey with playwright-cli on 12 Nov 2026. Three steps had to be simulated: Google blocked the automated search, and we chose not to message the real 1771 line so we wouldn’t take up a counsellor’s time.</p>
-  <video class="journey" src="journey.mp4" poster="img/journey-poster.jpg" controls muted playsinline preload="none" aria-label="Video: the 3:12am journey, screen by screen"></video>
-  <div class="film">
-    <div class="f"><div class="thumb"><img src="img/s01.png" alt=""></div><span>S1</span></div>
-    <div class="f"><div class="thumb"><img src="img/s02.png" alt=""></div><span>S2</span></div>
-    <div class="f"><div class="thumb"><img src="img/s03.png" alt=""></div><span>S3</span></div>
-    <div class="f hot"><div class="thumb"><img src="img/s04.png" alt=""></div><span>S4</span></div>
-    <div class="f"><div class="thumb"><img src="img/s05.png" alt=""></div><span>S5</span></div>
-    <div class="f"><div class="thumb"><img src="img/s06.png" alt=""></div><span>S6</span></div>
-    <div class="f"><div class="thumb"><img src="img/s07.png" alt=""></div><span>S7</span></div>
-    <div class="f"><div class="thumb"><img src="img/s08.png" alt=""></div><span>S8</span></div>
-    <div class="f hot"><div class="thumb"><img src="img/s09.png" alt=""></div><span>S9</span></div>
-    <div class="f hot"><div class="thumb"><img src="img/s10.png" alt=""></div><span>S10</span></div>
-    <div class="f"><div class="thumb"><img src="img/s11.png" alt=""></div><span>S11</span></div>
-    <div class="f"><div class="thumb"><img src="img/s12.png" alt=""></div><span>S12</span></div>
-    <div class="f hot"><div class="thumb"><img src="img/s13.png" alt=""></div><span>S13</span></div>
-    <div class="f"><div class="thumb"><img src="img/s14.png" alt=""></div><span>S14</span></div>
-  </div>
+  <video class="journey" src="journey.mp4" poster="img/journey-poster.jpg" autoplay muted loop controls playsinline aria-label="Video: the 3:12am journey, screen by screen"></video>
   <div class="bnums">
     <div class="bn"><div class="n">14</div><p>screens</p></div>
     <div class="bn"><div class="n">~11</div><p>taps</p></div>
@@ -417,48 +450,16 @@ a{color:inherit;text-decoration:none}
     <div class="bn"><div class="n">~10 min</div><p>3:12am → 3:22am</p></div>
   </div>
 
-  <div class="moments">
-    <div class="moment">
-      <div class="phone"><div class="scr"><img src="img/s04.png" alt=""></div></div>
-      <div class="time">S4 · Lands on MindSG</div>
-      <div class="h3">Six coloured tiles, and none of them says “talk to someone now”</div>
-      <p>The first screen has no phone number. A cookie banner covers the bottom third of the page.</p>
-    </div>
-    <div class="moment">
-      <div class="phone"><div class="scr"><img src="img/s10.png" alt=""></div></div>
-      <div class="time">S10 · mindline.sg home</div>
-      <div class="h3">Two consent walls later, the first offer is a bot</div>
-      <p>The 1771 option is only a small floating chip. Someone who typed “I need help” is pointed to an AI chat first.</p>
-    </div>
-    <div class="moment">
-      <div class="phone"><div class="scr"><img src="img/s13.png" alt=""></div></div>
-      <div class="time">S13 · Sends, and waits</div>
-      <div class="h3">After sending: silence</div>
-      <p>The message is delivered, then nothing. There’s no queue position and no expected wait. This is where I’d expect people to give up.</p>
-    </div>
-  </div>
-
-  <div class="longscroll">
-    <div>
-      <div class="time" style="font:700 14px/1 'Proza Libre';color:#E08789">S5 · Scrolls the whole page</div>
-      <div class="h2" style="color:#fff;margin-top:16px">Six and a half screens of scrolling, and still no number to call</div>
-      <p style="margin-top:16px">She scrolls past articles, stories and partner logos, and never sees a phone number. The only one is hidden in the website’s code, and it’s an old IMH number that stopped working in June 2025.</p>
-    </div>
-    <div class="strip">
-      <img src="img/s05.png" alt=""><img src="img/s05.png" alt="" style="margin-top:-295px"><img src="img/s05.png" alt="" style="margin-top:-590px"><img src="img/s05.png" alt="" style="margin-top:-886px">
-    </div>
-  </div>
-
   <div class="shortcut">
     <div class="h2" style="max-width:420px;flex:none">The shortcut was there all along</div>
-    <p>At S7 she could have tapped 1-771 and been calling in about 7 taps. Nothing on the page makes that the obvious move. That became our brief: we didn’t need to add more help, just make the help that already exists obvious.</p>
+    <p>Seven taps in, she could already have called 1771. Nothing on the page makes that the obvious move. That became our brief: we didn’t need to add more help, just make the help that already exists obvious.</p>
   </div>
 </div></div>
 
 <!-- PRINCIPLES -->
 <div class="principles"><div class="wrap">
-  <div class="eyebrow"><span class="dot" style="background:#70CDA1"></span>What we designed for</div>
-  <h2 class="sec-title" style="margin-top:16px">One door, one next step</h2>
+  <div class="eyebrow"><span class="dot" style="background:#70CDA1"></span>Our challenge, and what we designed for</div>
+  <h2 class="sec-title" style="margin-top:16px;max-max-width:900px">How might we help sandwiched millennials who are stressed, but not in crisis, find and start the right mindline.sg support within minutes?</h2>
   <div class="pgrid">
     <div class="pr card" style="background:#F7F0FF"><div class="k">01</div><div class="h3">Help before content</div><p>995, SOS and 1771 sit on the first screen of every page in the path, from the Google result onwards. Nobody has to go looking for them.</p></div>
     <div class="pr card" style="background:#E4FEFF"><div class="k">02</div><div class="h3">A person before a bot</div><p>“Talk to a counsellor” is the first thing she sees. Self-help is there for people who aren’t sure it’s serious, never as a gate.</p></div>
@@ -471,110 +472,15 @@ a{color:inherit;text-decoration:none}
   <div class="eyebrow"><span class="dot" style="background:#A974E5"></span>The redesign · web flow, anonymous</div>
   <h2 class="sec-title" style="margin-top:16px;max-width:1000px">Same night, same search. This time she reaches a counsellor in 3 taps.</h2>
 
-  <div class="feature">
-    <div class="stage" style="background:#E9ECFB"><div class="phone"><div class="scr"><img src="img/b1.png" alt=""></div></div></div>
-    <div class="txt">
-      <div class="step">3:12am · Step 1 · Google</div>
-      <div class="h2">The search result tells her how to get help</div>
-      <ul>
-        <li>HealthHub rewrites the MindSG title and description: “Need help now? Call or WhatsApp 1771, or chat on mindline.sg.”</li>
-        <li>A phone number is visible before she taps anything.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="feature flip">
-    <div class="txt">
-      <div class="step">3:13am · Step 2 · MindSG</div>
-      <div class="h2">A help bar comes before everything else</div>
-      <ul>
-        <li>A dark bar at the top: Talk on mindline.sg · WhatsApp 1771 · Call 1771.</li>
-        <li>The cookie notice shrinks to a thin bar that never covers help.</li>
-      </ul>
-    </div>
-    <div class="stage" style="background:#FFF9D6"><div class="phone"><div class="scr"><img src="img/b2.png" alt=""></div></div></div>
-  </div>
-
-  <div class="feature">
-    <div class="stage" style="background:#F7F0FF"><div class="phone"><div class="scr"><img src="img/b3.png" alt=""></div></div></div>
-    <div class="txt">
-      <div class="step">3:13am · Step 3 · mindline.sg</div>
-      <div class="h2">mindline.sg opens on “Talk to someone”, in the same tab</div>
-      <ul>
-        <li>A deep link (mindline.sg/talk?from=mindsg) skips the home page and the bot card.</li>
-        <li>Consent is one line under “Chat here”, not a second wall.</li>
-        <li>New: “Not sure if it’s serious?” leads to a 1-minute check that always ends in one next step.</li>
-      </ul>
-      <div style="display:flex;gap:12px;margin-top:8px"><span class="chip sel">0 consent walls</span><span class="chip">same tab</span><span class="chip">anonymous</span></div>
-    </div>
-  </div>
-
-  <div class="trio">
-    <div class="step">3:13am → 3:41am · Steps 4–6 · The chat</div>
-    <div class="h2" style="margin-top:14px;max-width:900px">The wait is shown, and someone she can name joins</div>
-    <div class="row">
-      <div class="col"><div class="phone"><div class="scr"><img src="img/b4.png" alt=""></div></div><div class="h3">You’re number 3 in the queue</div><p>She sees her queue position and about how long it’ll take, instead of silence. A safety line is pinned above the message box.</p></div>
-      <div class="col"><div class="phone"><div class="scr"><img src="img/b5.png" alt=""></div></div><div class="h3">3:17am · Mei joins</div><p>Mei reads what she wrote while she waited, so she doesn’t have to tell her story twice.</p></div>
-      <div class="col"><div class="phone"><div class="scr"><img src="img/b6.png" alt=""></div></div><div class="h3">3:41am · A plan, then a code</div><p>Mei sums up what they agreed and explains the code before the chat ends.</p></div>
-    </div>
-  </div>
-
-  <div class="pair">
-    <div class="card" style="background:#DAF6EB">
-      <div class="phone"><div class="scr"><img src="img/b7.png" alt=""></div></div>
-      <div class="txt"><div class="step" style="color:#23272C">Step 7</div><div class="h3">Her plan stays after the chat</div><p>Tonight, tomorrow, this week. “Did this chat help?” takes one tap, and check-ins are opt-in through the code, not a phone number.</p></div>
-    </div>
-    <div class="card" style="background:#FFF9D6">
-      <div class="phone"><div class="scr"><img src="img/b8.png" alt=""></div></div>
-      <div class="txt"><div class="step" style="color:#23272C">Step 8</div><div class="h3">A code to come back</div><p>A QR code and the code in large type. The same code works in the app, so she doesn’t start over. The code and link shown are placeholders.</p></div>
-    </div>
-  </div>
-
-  <div class="feature flip" style="margin-top:96px">
-    <div class="txt">
-      <div class="step">If she’s not sure it’s serious</div>
-      <div class="h2">What’s weighing on you? Pick more than one.</div>
-      <ul>
-        <li>Built from mindline.sg’s own topic cards and illustrations, so it feels familiar.</li>
-        <li>Rachel can pick Work and Caregiving together. The old site made her choose one.</li>
-        <li>The topics shape the five quick questions and the next step she gets.</li>
-      </ul>
-    </div>
-    <div class="stage" style="background:#E4FEFF"><div class="phone"><div class="scr"><img src="img/c0.png" alt=""></div></div></div>
+  <div class="flow">
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b1.png" alt="" loading="lazy"></div></div><div class="h3">3:12am · Help in the result</div><p>HealthHub’s Google result now reads “Need help now? Call or WhatsApp 1771, or chat on mindline.sg”. A number is visible before she taps.</p></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b2.png" alt="" loading="lazy"></div></div><div class="h3">3:12am · A help bar first</div><p>Talk on mindline.sg, WhatsApp 1771 or Call 1771 sit above everything else. The cookie notice shrinks to a thin bar.</p></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b3.png" alt="" loading="lazy"></div></div><div class="h3">3:13am · Talk to someone</div><p>A deep link skips the home page and the bot card. Consent is one line under “Chat here”, not a second wall.</p></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b4.png" alt="" loading="lazy"></div></div><div class="h3">3:13am · Number 3 in the queue</div><p>She sees her queue position and about how long it’ll take, instead of silence. A safety line is pinned above the message box.</p></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b5.png" alt="" loading="lazy"></div></div><div class="h3">3:17am · Mei joins</div><p>Mei reads what she wrote while she waited, so she doesn’t have to tell her story twice.</p></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/b6.png" alt="" loading="lazy"></div></div><div class="h3">3:41am · A plan, then a code</div><p>Mei sums up what they agreed and explains the code before the chat ends.</p></div>
   </div>
 </div></div>
-
-<!-- APP -->
-<div class="app"><div class="wrap"><div class="box">
-  <div style="display:flex;flex-direction:column;gap:20px">
-    <div class="eyebrow"><span class="dot" style="background:#62B4DC"></span>The anonymous app</div>
-    <div class="h2">The code carries the conversation into the app</div>
-    <p>The welcome screen offers two routes: “I’m new here”, or “I have a code from mindline.sg”. If she came from a web chat, she can scan, upload or paste her code and pick a nickname on one screen, in about 20 seconds.</p>
-    <p class="small muted">The two app paths stay separate: someone with a code never lands in the “first chat” screens.</p>
-  </div>
-  <div class="phones">
-    <div class="phone"><div class="scr"><img src="img/o0.png" alt=""></div></div>
-    <div class="phone"><div class="scr"><img src="img/r1.png" alt=""></div></div>
-  </div>
-</div></div></div>
-
-<!-- CAREGIVER -->
-<div class="care"><div class="wrap"><div class="box">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:48px">
-    <div>
-      <div class="eyebrow"><span class="dot" style="background:#F3A25F"></span>For caregivers who aren’t in crisis</div>
-      <div class="h2" style="margin-top:14px;max-width:760px">From caregiving resources to a gentle check-in on herself</div>
-    </div>
-    <p style="max-width:420px">She starts with what she came for, help for Mum. Then the page asks how <i>she</i> is doing, and the check-in ends in a 1771 callback at a time she picks.</p>
-  </div>
-  <div class="row">
-    <div class="col"><div class="phone"><div class="scr"><img src="img/w04.png" alt=""></div></div><div class="small"><b>04</b> · Who are you caring for?</div></div>
-    <div class="col"><div class="phone"><div class="scr"><img src="img/w05.png" alt=""></div></div><div class="small"><b>05</b> · Resources, then “How are you doing?”</div></div>
-    <div class="col"><div class="phone"><div class="scr"><img src="img/w06.png" alt=""></div></div><div class="small"><b>06</b> · A 2-minute check-in</div></div>
-    <div class="col"><div class="phone"><div class="scr"><img src="img/w09.png" alt=""></div></div><div class="small"><b>09</b> · A reflection in her words</div></div>
-    <div class="col"><div class="phone"><div class="scr"><img src="img/w14.png" alt=""></div></div><div class="small"><b>14</b> · Check-in requested</div></div>
-  </div>
-</div></div></div>
 
 <!-- COMPARE -->
 <div class="compare"><div class="wrap">
@@ -601,12 +507,6 @@ a{color:inherit;text-decoration:none}
     <div class="small" style="color:#C9CBD1;max-width:180px;flex:none">Ad copy, in her words</div>
     <div class="quote">“Stretched between work and Mum? 4 minutes, anonymous.”</div>
   </div>
-  <div class="path">
-    <div class="s"><b>Any door</b><p class="small">Scan a QR code or short link made for that channel</p></div><div class="ar">→</div>
-    <div class="s"><b>One page</b><p class="small">mindline.sg for work and caregiving stress</p></div><div class="ar">→</div>
-    <div class="s"><b>Under 4 min</b><p class="small">Self-help, or a chat with a counsellor</p></div><div class="ar">→</div>
-    <div class="s"><b>Booked</b><p class="small">A certified counsellor</p></div>
-  </div>
 </div></div>
 
 <!-- IMPACT -->
@@ -618,10 +518,6 @@ a{color:inherit;text-decoration:none}
     <div class="im" style="background:#E4FEFF"><div class="n">+2–3</div><p>counsellors’ worth of time, about 9% of a team of around 30</p></div>
     <div class="im" style="background:#DAF6EB"><div class="n">+1,250</div><p>more contacts a month at 20 minutes each</p></div>
     <div class="im" style="background:#FDF1E0"><div class="n">50%</div><p>target for completed referrals, up from 33–42% today</p></div>
-  </div>
-  <div class="measure">
-    <div class="card"><div class="step">How we’d measure it · 1</div><div class="h3">Visits to mindline.sg, by channel</div><p>Unique visitors and sessions split by source (QR, social media, Google, WhatsApp), using web analytics and a tagged link for each channel. The baseline is 50,000+ unique visitors a month.</p></div>
-    <div class="card"><div class="step">How we’d measure it · 2</div><div class="h3">Confirmed counsellor bookings</div><p>Bookings started vs confirmed, and where people drop off, matched to anonymous session IDs. One guardrail: people stay anonymous until they choose to book.</p></div>
   </div>
   <p class="src" style="margin-top:20px">Model assumptions: a 20-minute average contact, about 5,000 contacts a month (MOH, 13 Feb 2026) and 160 working hours per counsellor. All targets are proposals until we have a 3-month baseline, and need confirming with MOHT/IMH data.</p>
 </div></div>
@@ -639,7 +535,6 @@ a{color:inherit;text-decoration:none}
       <div class="lesson"><div class="k">02</div><div><div class="h3">The best fix was mostly about putting things in the right order</div><p style="margin-top:10px">Almost every piece of help already existed. We changed what comes first, and that halved the journey.</p></div></div>
       <div class="lesson" style="border-bottom:2px solid #000"><div class="k">03</div><div><div class="h3">Being honest about what’s simulated</div><p style="margin-top:10px">We didn’t message the real 1771 line, and we labelled every mock-up and estimate as one. In mental-health design, that restraint is part of the work.</p></div></div>
     </div>
-    <div class="next"><div><div class="h3">What’s next</div><p style="margin-top:8px">Validate the flow in 5–8 interviews with caregivers, then pilot the tracked journey.</p></div></div>
   </div>
 </div></div>
 
