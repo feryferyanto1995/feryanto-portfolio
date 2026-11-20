@@ -244,3 +244,6 @@
   }, { rootMargin: '0px 0px -10% 0px' });
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 })();
+
+// Reduced motion: don't autoplay cover videos.
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('.cover video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });

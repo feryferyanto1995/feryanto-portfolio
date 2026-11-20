@@ -202,9 +202,8 @@ section.work { position: relative; z-index: 1; margin-top: calc(-1 * clamp(60px,
 
 h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-size: clamp(2.3rem, 5vw, 4rem); }
 
-.work-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; margin-top: 56px; }
-.project-a { grid-column: 1 / 8; }
-.project-b { grid-column: 9 / 13; margin-top: 160px; }
+/* 4fr/3fr: a 4:3 cover and a square cover come out the same height, so the two cards line up. */
+.work-grid { display: grid; grid-template-columns: 4fr 3fr; gap: 32px; margin-top: 56px; }
 .project-link { display: block; text-decoration: none; }
 .cover {
   display: grid; place-items: center; text-align: center;
@@ -216,6 +215,17 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
   font: 1.25rem/1.3 var(--hand); color: var(--mute);
   transition: transform .5s var(--ease), border-color .3s ease;
 }
+/* Orbit card: the 3D mark fills the card edge to edge (no frame), lifted off the page by a
+   soft layered shadow, the way bbit garden presents it. */
+.cover-orbit, .cover-video {
+  aspect-ratio: 900 / 842 !important; border: 0; border-radius: 24px !important; overflow: hidden; background: #1B1A3A;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 18px rgba(0, 0, 0, .12), 0 26px 52px rgba(0, 0, 0, .18), 0 56px 110px rgba(0, 0, 0, .2);
+  transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+}
+.cover-video { aspect-ratio: 1 / 1 !important; background: #000; }
+.cover-orbit img, .cover-video video { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.project-link:hover .cover-orbit, .project-link:hover .cover-video { border: 0; transform: translateY(-6px); }
+.project-link:hover .cover-orbit img, .project-link:hover .cover-video video { transform: scale(1.04); }
 .project-b .cover { aspect-ratio: 4 / 5; border-radius: var(--wobble-2); }
 .project-link:hover .cover { transform: translateY(-6px) rotate(-1deg); border-color: var(--accent); }
 .project h3 { margin: 22px 0 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; }
