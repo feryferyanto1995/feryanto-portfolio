@@ -24,6 +24,8 @@
   try { if (localStorage.getItem("feryanto-theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
   // The journey video autoplays, except for visitors who ask for reduced motion.
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) addEventListener("DOMContentLoaded", () => document.querySelectorAll("video[autoplay]").forEach((v) => { v.autoplay = false; v.pause(); }));
+  // The 3:12am journey plays at 1.75x (defaultPlaybackRate survives the load that resets playbackRate).
+  addEventListener("DOMContentLoaded", () => document.querySelectorAll("video.journey").forEach((v) => { v.defaultPlaybackRate = v.playbackRate = 1.75; }));
 </script>
 <style>
 :root {
@@ -280,6 +282,7 @@ a{color:inherit;text-decoration:none}
 .flow .phone{width:226px}
 .flow .h3{margin-top:10px}
 .rachel{padding-top:96px}
+.compare,.app{padding-bottom:24px} /* 43:3 stacks compare, plan/code cards, app and caregiver 24px apart */
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 /* ---- portfolio theme: night + stars, Bricolage, Patrick Hand labels, star accent ---- */
@@ -403,7 +406,7 @@ body{font-family:var(--display);-webkit-font-smoothing:antialiased}
     <p class="lede">How I helped redesign the way a burnt-out caregiver reaches a real counsellor at 3am. We went from 14 screens and two consent walls to 5 screens and none.</p>
     <div class="meta">
       <div><b>My role</b><span>UX designer · PM</span></div>
-      <div><b>Team</b><span>1 - Product Owner, 1 - Project Manager, 4 UX Designers</span></div>
+      <div><b>Team</b><span>Product Owner, Project Manager, UX Designers (4)</span></div>
       <div><b>Timeline</b><span>7 Days</span></div>
       <div><b>Tools</b><span>Figma, Claude Code</span></div>
     </div>
@@ -492,22 +495,50 @@ body{font-family:var(--display);-webkit-font-smoothing:antialiased}
     <div class="cell"><span class="was">2</span><span class="now">0</span><p>consent walls</p></div>
     <div class="cell"><span class="was">~10 min</span><span class="now">~5 min</span><p>until a counsellor replies</p></div>
   </div>
+  <div class="pair">
+    <div class="card" style="background:#DAF6EB">
+      <div class="phone"><div class="scr"><img src="img/b7.png" alt=""></div></div>
+      <div class="txt"><div class="h3">Her plan stays after the chat</div><p>Tonight, tomorrow, this week. “Did this chat help?” takes one tap, and check-ins are opt-in through the code, not a phone number.</p></div>
+    </div>
+    <div class="card" style="background:#FFF9D6">
+      <div class="phone"><div class="scr"><img src="img/b8.png" alt=""></div></div>
+      <div class="txt"><div class="h3">A code to come back</div><p>A QR code and the code in large type. The same code works in the app, so she doesn’t start over. The code and link shown are placeholders.</p></div>
+    </div>
+  </div>
+
 </div></div>
 
-<!-- CHANNELS -->
-<div class="channels"><div class="wrap">
-  <div class="eyebrow"><span class="dot" style="background:#E08789"></span>Omni-channel</div>
-  <h2 class="sec-title" style="margin-top:16px;max-width:900px">She won’t come looking, so we meet her where she already is</h2>
-  <div class="cgrid">
-    <div class="ch"><div class="ico" style="background:#F6DAF6">1</div><div class="small muted">Culture · offline</div><div class="h3">Theatre plays about mental health</div><p>Fliers and a QR code in the programme and on screen at curtain call. Example: <i>How To Be A Kid</i>, Gateway Theatre, about a 12-year-old who becomes a carer.</p></div>
-    <div class="ch"><div class="ico" style="background:#E0E5FF">2</div><div class="small muted">Official outreach event</div><div class="h3">NCSS Beyond the Label Festival</div><p>A mindline.sg booth, plus a QR code on talk slides and lanyards. The festival is about workplace mental health, a direct match for burnt-out working caregivers. We’d target the 2027 edition.</p></div>
-    <div class="ch"><div class="ico" style="background:#FFE0DD">3</div><div class="small muted">Transit ads · public spaces</div><div class="h3">MRT stations and bus stops</div><p>Panels at CBD interchanges such as Raffles Place and Tanjong Pagar, on the commute home. Also bus stops outside polyclinics, where caregivers wait with their parents.</p></div>
+<!-- APP -->
+<div class="app"><div class="wrap"><div class="box">
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div class="eyebrow"><span class="dot" style="background:#62B4DC"></span>The anonymous app</div>
+    <div class="h2">The code carries the conversation into the app</div>
+    <p>The welcome screen offers two routes: “I’m new here”, or “I have a code from mindline.sg”. If she came from a web chat, she can scan, upload or paste her code and pick a nickname on one screen, in about 20 seconds.</p>
+    <p class="small muted">The two app paths stay separate: someone with a code never lands in the “first chat” screens.</p>
   </div>
-  <div class="adcopy">
-    <div class="small" style="color:#C9CBD1;max-width:180px;flex:none">Ad copy, in her words</div>
-    <div class="quote">“Stretched between work and Mum? 4 minutes, anonymous.”</div>
+  <div class="phones">
+    <div class="phone"><div class="scr"><img src="img/o0.png" alt=""></div></div>
+    <div class="phone"><div class="scr"><img src="img/r1.png" alt=""></div></div>
   </div>
-</div></div>
+</div></div></div>
+
+<!-- CAREGIVER -->
+<div class="care"><div class="wrap"><div class="box">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:48px">
+    <div>
+      <div class="eyebrow"><span class="dot" style="background:#F3A25F"></span>For caregivers who aren’t in crisis</div>
+      <div class="h2" style="margin-top:14px;max-width:760px">From caregiving resources to a gentle check-in on herself</div>
+    </div>
+    <p style="max-width:420px">She starts with what she came for, help for Mum. Then the page asks how <i>she</i> is doing, and the check-in ends in a 1771 callback at a time she picks.</p>
+  </div>
+  <div class="row">
+    <div class="col"><div class="phone"><div class="scr"><img src="img/w04.png" alt=""></div></div><div class="small"><b>04</b> · Who are you caring for?</div></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/w05.png" alt=""></div></div><div class="small"><b>05</b> · Resources, then “How are you doing?”</div></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/w06.png" alt=""></div></div><div class="small"><b>06</b> · A 2-minute check-in</div></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/w09.png" alt=""></div></div><div class="small"><b>09</b> · A reflection in her words</div></div>
+    <div class="col"><div class="phone"><div class="scr"><img src="img/w14.png" alt=""></div></div><div class="small"><b>14</b> · Check-in requested</div></div>
+  </div>
+</div></div></div>
 
 <!-- IMPACT -->
 <div class="impact" id="impact"><div class="wrap">
@@ -546,7 +577,7 @@ body{font-family:var(--display);-webkit-font-smoothing:antialiased}
     </div>
     <div>
       <div class="eyebrow">Team 2</div>
-      <div class="team"><span class="chip">Heng Khuan</span><span class="chip">Justin</span><span class="chip">Ming Ying</span><span class="chip">Haylam (Yuk Ying)</span><span class="chip">Zafirah</span><span class="chip sel">Feryanto</span></div>
+      <div class="team"><span class="chip">Heng Khuan</span><span class="chip">Justin</span><span class="chip">Ming Ying</span><span class="chip">Haylam</span><span class="chip">Zafirah</span><span class="chip sel">Feryanto</span></div>
       <p class="small muted" style="margin-top:24px">A student design sprint. mindline.sg, MindSG and HealthHub screens are captured or redesigned for study only. The illustrations and marks belong to their owners.</p>
     </div>
   </div>

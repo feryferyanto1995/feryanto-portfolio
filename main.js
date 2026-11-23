@@ -110,6 +110,7 @@
   // Labels and reveals for each object.
   let tipTimer = 0;
   function showTip(spot) {
+    if (!spot.label) return hideTip(); // spots without data-label (skyline, rainforest) colour in silently
     const b = spot.el.getBoundingClientRect(), s = stage.getBoundingClientRect();
     // Default: just above the hover area. Spots with data-tip ("x y", % of the artwork) point at a
     // specific spot instead, e.g. the top of the alien's and the dog's heads.
@@ -230,7 +231,9 @@
         order = [...order.slice(1), front];
         order.forEach((el, i) => { el.dataset.pos = i; });
         front.classList.remove('is-leaving');
-        hint.textContent = `Photo ${snaps.indexOf(order[0]) + 1} of ${snaps.length}`;
+        const ig = order[0].dataset.ig;
+        if (ig) hint.innerHTML = `See more on Instagram: <a href="${ig}" target="_blank" rel="noopener">@blancc.canvas</a>`;
+        else hint.textContent = `Photo ${snaps.indexOf(order[0]) + 1} of ${snaps.length}`;
         busy = false;
       }, reduce ? 0 : 320);
     });
