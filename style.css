@@ -227,6 +227,23 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 .project-link:hover .cover-orbit, .project-link:hover .cover-video { border: 0; transform: translateY(-6px); }
 .project-link:hover .cover-orbit img, .project-link:hover .cover-video video { transform: scale(1.04); }
 .project-b .cover { aspect-ratio: 4 / 5; border-radius: var(--wobble-2); }
+/* Stamp cover: a 3D card that turns over on hover/focus, like the postcards on poorviii.vercel.app
+   (perspective 1440px, .5s cubic-bezier(.2,.78,.2,1)). The 4:3 box keeps it level with the video card. */
+.cover-stamp { border: 0; background: none; perspective: 1440px; }
+.project-link:hover .cover.cover-stamp { transform: none; }
+.stamp-flip { position: relative; width: 100%; aspect-ratio: 1672 / 941; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .78, .2, 1); }
+.project-link.is-flipped .stamp-flip { transform: rotateY(180deg); }
+@media (hover: hover) { .project-link:hover .stamp-flip { transform: rotateY(180deg); } }
+.project-link:focus-visible .stamp-flip { transform: rotateY(180deg); }
+.stamp-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.stamp-front img { width: 100%; height: 100%; filter: drop-shadow(6px 10px 0 rgba(8, 9, 24, .5)); }
+/* Back: the stamp's own perforated outline (its alpha as a mask), cream paper, the clip where the art was. */
+.stamp-back {
+  transform: rotateY(180deg); background: #F6E9D0;
+  -webkit-mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat; mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat;
+}
+.stamp-back video { position: absolute; inset: 6.7% 5% 9.6%; width: 90%; height: 83.7%; object-fit: cover; border-radius: 6px; box-shadow: 0 0 0 3px #F6E9D0, 0 0 0 5px #A3402E; background: #3E7A4A; }
+@media (prefers-reduced-motion: reduce) { .stamp-flip { transition: none; } }
 .project-link:hover .cover { transform: translateY(-6px) rotate(-1deg); border-color: var(--accent); }
 .project h3 { margin: 22px 0 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; }
 .project-link:hover h3 { text-decoration: underline wavy var(--accent) 1.5px; text-underline-offset: 7px; }
@@ -364,6 +381,7 @@ a, button, .btn, .spot, .stack, .theme-mini, label[for] { cursor: url("data:imag
   transform: translateY(100%); transition: transform .7s var(--ease);
 }
 .sheet-open .sheet { transform: none; }
+.sheet[hidden] { display: none; } /* display:flex above would otherwise beat [hidden] and leave it tabbable */
 .sheet-open .sheet-backdrop { opacity: 1; }
 .sheet-lock, .sheet-lock body { overflow: hidden; }
 main { transition: transform .8s cubic-bezier(.22, 1, .36, 1), opacity .8s cubic-bezier(.22, 1, .36, 1); }

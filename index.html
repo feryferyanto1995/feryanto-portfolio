@@ -69,11 +69,21 @@
       <div class="work-grid">
         <article class="project project-a reveal">
           <a href="#" class="project-link">
-            <!-- TODO: replace with a real cover image, about 1600x1200 -->
-            <div class="cover"><span>Project cover<br>1600 x 1200</span></div>
-            <h3>Project title</h3>
-            <p>One sentence on the problem, and one on what changed because of your design.</p>
-            <p class="meta">UX design, research <span aria-hidden="true">/</span> 2026</p>
+            <!-- Stamp turns over on hover/focus (like a postcard) to show the motion piece on its back. -->
+            <div class="cover cover-stamp">
+              <div class="stamp-flip">
+                <div class="stamp-face stamp-front">
+                  <img src="assets/vintage-stamp.webp" width="1672" height="941" alt="Vintage Japanese postage stamp: Mount Fuji behind a tree and a field of orange marigolds" loading="lazy" decoding="async">
+                </div>
+                <div class="stamp-face stamp-back" aria-hidden="true">
+                  <!-- TODO: placeholder clip; swap in the real Google Plan motion design (same file name, 16:9) -->
+                  <video src="assets/google-plan-motion.mp4" muted loop playsinline preload="none"></video>
+                </div>
+              </div>
+            </div>
+            <h3>Google Plan</h3>
+            <p>A new Google Maps feature that lets people plan a trip in one app, instead of juggling several tools.</p>
+            <p class="meta">User research, UX design <span aria-hidden="true">/</span> Capstone <span aria-hidden="true">/</span> 2026</p>
           </a>
         </article>
         <article class="project project-b reveal">

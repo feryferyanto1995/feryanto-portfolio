@@ -251,6 +251,25 @@
 // Reduced motion: don't autoplay cover videos.
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('.cover video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
 
+// Stamp card: its back holds a motion clip; play it only while the stamp is turned over.
+document.querySelectorAll('.cover-stamp').forEach((cover) => {
+  const link = cover.closest('.project-link');
+  const video = cover.querySelector('video');
+  if (!link || !video) return;
+  const play = () => { video.play().catch(() => {}); };
+  const stop = () => { video.pause(); video.currentTime = 0; };
+  link.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') play(); });
+  link.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !link.classList.contains('is-flipped')) stop(); });
+  link.addEventListener('focus', () => link.matches(':focus-visible') && play());
+  link.addEventListener('blur', () => { link.classList.remove('is-flipped'); stop(); });
+  // No case study yet (href="#"): a click or tap turns the stamp over instead of jumping to the top.
+  link.addEventListener('click', (e) => {
+    if (link.getAttribute('href') !== '#') return;
+    e.preventDefault();
+    link.classList.toggle('is-flipped') ? play() : stop();
+  });
+});
+
 // Case-study sheet: a project link with a real page opens it in a sheet that slides up over the
 // portfolio (dimmed behind). The URL gets a #hash (#mindline), so Back closes it, Forward and a
 // shared link reopen it; a pushed path would make the page's relative URLs resolve wrongly.
