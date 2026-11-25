@@ -70,12 +70,12 @@
         <article class="project project-a reveal">
           <a href="#" class="project-link">
             <!-- Stamp turns over on hover/focus (like a postcard) to show the motion piece on its back. -->
-            <div class="cover cover-stamp">
-              <div class="stamp-flip">
-                <div class="stamp-face stamp-front">
+            <div class="cover cover-flip">
+              <div class="flip stamp-flip">
+                <div class="flip-face stamp-front">
                   <img src="assets/vintage-stamp.webp" width="1672" height="941" alt="Vintage Japanese postage stamp: Mount Fuji behind a tree and a field of orange marigolds" loading="lazy" decoding="async">
                 </div>
-                <div class="stamp-face stamp-back" aria-hidden="true">
+                <div class="flip-face flip-back stamp-back" aria-hidden="true">
                   <!-- TODO: placeholder clip; swap in the real Google Plan motion design (same file name, 16:9) -->
                   <video src="assets/google-plan-motion.mp4" muted loop playsinline preload="none"></video>
                 </div>
@@ -88,8 +88,16 @@
         </article>
         <article class="project project-b reveal">
           <a href="mindline/" class="project-link">
-            <div class="cover cover-video">
-              <video src="assets/mindline-30s.mp4" width="1080" height="1080" autoplay muted loop playsinline preload="metadata" aria-label="mindline.sg promo: the redesigned help-seeking flow"></video>
+            <!-- Turns over on hover/focus to the 30s promo; a click still opens the case study. -->
+            <div class="cover cover-flip">
+              <div class="flip">
+                <div class="flip-face mindline-front">
+                  <img src="assets/mindline-hero.webp" width="1254" height="1254" alt="A man in a mirror sees his younger self in a school uniform looking back" loading="lazy" decoding="async">
+                </div>
+                <div class="flip-face flip-back mindline-back" aria-hidden="true">
+                  <video src="assets/mindline-30s.mp4" muted loop playsinline preload="none"></video>
+                </div>
+              </div>
             </div>
             <h3>mindline.sg</h3>
             <p>A redesign of Singapore's mental-health portal, so a first visit late at night leads to real help instead of a 14-screen maze.</p>

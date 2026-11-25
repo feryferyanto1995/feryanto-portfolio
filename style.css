@@ -217,33 +217,39 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 }
 /* Orbit card: the 3D mark fills the card edge to edge (no frame), lifted off the page by a
    soft layered shadow, the way bbit garden presents it. */
-.cover-orbit, .cover-video {
+.cover-orbit {
   aspect-ratio: 900 / 842 !important; border: 0; border-radius: 24px !important; overflow: hidden; background: #1B1A3A;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 18px rgba(0, 0, 0, .12), 0 26px 52px rgba(0, 0, 0, .18), 0 56px 110px rgba(0, 0, 0, .2);
   transition: transform .6s var(--ease), box-shadow .6s var(--ease);
 }
-.cover-video { aspect-ratio: 1 / 1 !important; background: #000; }
-.cover-orbit img, .cover-video video { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
-.project-link:hover .cover-orbit, .project-link:hover .cover-video { border: 0; transform: translateY(-6px); }
-.project-link:hover .cover-orbit img, .project-link:hover .cover-video video { transform: scale(1.04); }
+.cover-orbit img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.project-link:hover .cover-orbit { border: 0; transform: translateY(-6px); }
+.project-link:hover .cover-orbit img { transform: scale(1.04); }
 .project-b .cover { aspect-ratio: 4 / 5; border-radius: var(--wobble-2); }
 /* Stamp cover: a 3D card that turns over on hover/focus, like the postcards on poorviii.vercel.app
    (perspective 1440px, .5s cubic-bezier(.2,.78,.2,1)). The 4:3 box keeps it level with the video card. */
-.cover-stamp { border: 0; background: none; perspective: 1440px; }
-.project-link:hover .cover.cover-stamp { transform: none; }
-.stamp-flip { position: relative; width: 100%; aspect-ratio: 1672 / 941; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .78, .2, 1); }
-.project-link.is-flipped .stamp-flip { transform: rotateY(180deg); }
-@media (hover: hover) { .project-link:hover .stamp-flip { transform: rotateY(180deg); } }
-.project-link:focus-visible .stamp-flip { transform: rotateY(180deg); }
-.stamp-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.cover-flip { border: 0; background: none; perspective: 1440px; }
+.project-link:hover .cover.cover-flip { transform: none; }
+.flip { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .78, .2, 1); }
+.project-link.is-flipped .flip { transform: rotateY(180deg); }
+@media (hover: hover) { .project-link:hover .flip { transform: rotateY(180deg); } }
+.project-link:focus-visible .flip { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+.stamp-flip { height: auto; aspect-ratio: 1672 / 941; }
 .stamp-front img { width: 100%; height: 100%; filter: drop-shadow(6px 10px 0 rgba(8, 9, 24, .5)); }
 /* Back: the stamp's own perforated outline (its alpha as a mask), cream paper, the clip where the art was. */
 .stamp-back {
-  transform: rotateY(180deg); background: #F6E9D0;
+  background: #F6E9D0;
   -webkit-mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat; mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat;
 }
 .stamp-back video { position: absolute; inset: 6.7% 5% 9.6%; width: 90%; height: 83.7%; object-fit: cover; border-radius: 6px; box-shadow: 0 0 0 3px #F6E9D0, 0 0 0 5px #A3402E; background: #3E7A4A; }
-@media (prefers-reduced-motion: reduce) { .stamp-flip { transition: none; } }
+/* mindline card: the mirror illustration on the front, the 30s promo on the back (square, like the old video card) */
+.project-b .cover-flip { aspect-ratio: 1 / 1; }
+.mindline-front img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(6px 10px 0 rgba(8, 9, 24, .45)); }
+.mindline-back { border-radius: 24px; overflow: hidden; background: #F7F0FF; box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 18px rgba(0, 0, 0, .12), 0 26px 52px rgba(0, 0, 0, .18); }
+.mindline-back video { width: 100%; height: 100%; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .flip { transition: none; } }
 .project-link:hover .cover { transform: translateY(-6px) rotate(-1deg); border-color: var(--accent); }
 .project h3 { margin: 22px 0 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; }
 .project-link:hover h3 { text-decoration: underline wavy var(--accent) 1.5px; text-underline-offset: 7px; }
