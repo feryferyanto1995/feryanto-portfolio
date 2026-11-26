@@ -287,10 +287,11 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
   background: radial-gradient(120% 90% at 30% 40%, #F7EBD6, #EEDCBF); color: #4A3A2C;
 }
 /* shadow the lifting page casts on the next one: strong at the spine while it lifts, gone once it lands */
-.journal-next::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(40, 24, 10, .45), transparent 38%); opacity: 1; transition: opacity .9s cubic-bezier(.645, .045, .355, 1); pointer-events: none; }
-.journal-clip { position: relative; width: 82%; margin: 0; padding: 3.5%; background: #FFFDF7; box-shadow: 0 6px 14px rgba(40, 24, 10, .22); rotate: -2.2deg; }
-.journal-clip::after { content: ""; position: absolute; top: -7%; left: 38%; width: 26%; height: 14%; background: rgba(214, 170, 120, .55); rotate: 3deg; } /* washi tape */
-.journal-clip video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #3E7A4A; }
+.journal-next::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; background: linear-gradient(90deg, rgba(40, 24, 10, .45), transparent 38%); opacity: 1; transition: opacity .9s cubic-bezier(.645, .045, .355, 1); pointer-events: none; }
+/* page 4: the square clip takes 80% of the page (the page is nearly square, so 80% of its height
+   is also about 80% of its width), centred on the paper with a soft printed-in shadow */
+.journal-clip { position: relative; height: 80%; aspect-ratio: 1; margin: 0; overflow: hidden; border-radius: 6px; box-shadow: 0 6px 16px rgba(40, 24, 10, .2); }
+.journal-clip video { display: block; width: 100%; height: 100%; object-fit: cover; background: #F6F8FC; }
 .journal .journal-note { margin: 0; max-width: none; font: clamp(.95rem, 1.4vw, 1.25rem)/1.2 var(--hand); color: #5C4632; } /* ink on paper; beats .project p */
 .journal-leaf { transform: translateZ(1px); transform-origin: 0 50%; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.645, .045, .355, 1); }
 .leaf-face { position: absolute; inset: 0; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 0 2.2% 2.2% 0 / 0 2.3% 2.3% 0; }
