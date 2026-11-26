@@ -193,7 +193,7 @@ section.work { position: relative; z-index: 1; margin-top: calc(-1 * clamp(60px,
     .hero-copy { animation: lift linear both; animation-timeline: --hero; animation-range: exit 0% exit 45%; }
     /* The heading rises as the hero leaves, so it never sits on top of the globe at rest. */
     .work > h2 { animation: rise linear both; animation-timeline: --hero; animation-range: exit 5% exit 55%; }
-    .work-grid { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+    .work-list { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
     @keyframes sink { to { transform: translateY(25%); opacity: 0; } }
     @keyframes lift { to { transform: translateY(-48px); opacity: 0; } }
     @keyframes rise { from { transform: translateY(70px); opacity: 0; } }
@@ -203,8 +203,47 @@ section.work { position: relative; z-index: 1; margin-top: calc(-1 * clamp(60px,
 h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-size: clamp(2.3rem, 5vw, 4rem); }
 
 /* 4fr/3fr: a 4:3 cover and a square cover come out the same height, so the two cards line up. */
-.work-grid { display: grid; grid-template-columns: 4fr 3fr; gap: 32px; margin-top: 56px; }
-.project-link { display: block; text-decoration: none; }
+/* Projects: one panel each, visual and text on an even split, sides alternating. Text blocks share
+   a width and centre against their visual, so both rows line up on the same two columns. */
+.work-list { display: grid; gap: 32px; margin-top: 56px; }
+.project-link {
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(32px, 5vw, 80px);
+  padding: clamp(28px, 4.5vw, 64px); border-radius: 28px; text-decoration: none;
+  background: var(--night); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chalk) 9%, transparent);
+}
+.project-b .project-visual { order: 2; }
+.project-visual { position: relative; }
+/* Google Plan spans the panel: the travel journal runs edge to edge of the content box, text underneath.
+   Tags, title and pitch on the left; the facts start on the same line as the tags and end on the
+   journal's right edge, with the link under them. */
+.project-a .project-link { grid-template-columns: 1fr; gap: clamp(32px, 4vw, 56px); }
+.project-a .project-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); column-gap: clamp(32px, 5vw, 80px); align-items: start; }
+.project-a .project-body > .tags, .project-a .project-body > h3, .project-a .project-body > p { grid-column: 1; }
+.project-a .project-body > .facts { grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+.project-a .project-body > .project-cta { grid-column: 2; grid-row: 3; align-self: start; margin-top: 20px; }
+.project-b .project-visual { justify-self: center; width: min(100%, 460px); }
+.project-body { min-width: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; padding: 0; list-style: none; }
+.tags li { padding: 5px 10px 6px; border: 1.5px solid var(--ink); border-radius: 5px; background: var(--star); color: var(--ink); font: 700 .8125rem/1.2 var(--display); letter-spacing: .01em; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 28px 0 0; padding: 16px 0; border-block: 1px solid var(--line); }
+.facts dt { font: 1.05rem/1.2 var(--hand); color: var(--mute); }
+.facts dd { margin: 4px 0 0; font-weight: 600; font-size: .95rem; line-height: 1.35; color: var(--chalk); }
+.project-cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; font-weight: 700; color: var(--accent); }
+.project-cta .arrow { transition: transform .4s var(--ease); }
+.project-link:hover .project-cta .arrow, .project-link:focus-visible .project-cta .arrow { transform: translateX(5px); }
+.project-cta.is-soon { color: var(--mute); font: 1.15rem var(--hand); }
+@media (max-width: 960px) {
+  .project-link { grid-template-columns: 1fr; gap: 36px; }
+  .project-a .project-body { display: block; }
+  .project-a .project-body > .facts { margin-top: 28px; }
+  .project-b .project-visual { order: 0; width: min(100%, 420px); }
+}
+@media (max-width: 560px) {
+  /* three columns squeeze longer values onto several lines: stack as label / value rows */
+  .facts { grid-template-columns: 1fr; gap: 10px; }
+  .facts div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .facts dd { margin: 0; text-align: right; }
+}
 .cover {
   display: grid; place-items: center; text-align: center;
   aspect-ratio: 4 / 3; border: 2px dashed var(--line); border-radius: var(--wobble);
@@ -225,10 +264,9 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 .cover-orbit img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
 .project-link:hover .cover-orbit { border: 0; transform: translateY(-6px); }
 .project-link:hover .cover-orbit img { transform: scale(1.04); }
-.project-b .cover { aspect-ratio: 4 / 5; border-radius: var(--wobble-2); }
 /* Stamp cover: a 3D card that turns over on hover/focus, like the postcards on poorviii.vercel.app
    (perspective 1440px, .5s cubic-bezier(.2,.78,.2,1)). The 4:3 box keeps it level with the video card. */
-.cover-flip { border: 0; background: none; perspective: 1440px; }
+.cover.cover-flip { aspect-ratio: auto; border: 0; border-radius: 0; background: none; perspective: 1440px; }
 .project-link:hover .cover.cover-flip { transform: none; }
 .flip { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .78, .2, 1); }
 .project-link.is-flipped .flip { transform: rotateY(180deg); }
@@ -236,25 +274,49 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
 .project-link:focus-visible .flip { transform: rotateY(180deg); }
 .flip-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .flip-back { transform: rotateY(180deg); }
-.stamp-flip { height: auto; aspect-ratio: 1672 / 941; }
-.stamp-front img { width: 100%; height: 100%; filter: drop-shadow(6px 10px 0 rgba(8, 9, 24, .5)); }
-/* Back: the stamp's own perforated outline (its alpha as a mask), cream paper, the clip where the art was. */
-.stamp-back {
-  background: #F6E9D0;
-  -webkit-mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat; mask: url("assets/vintage-stamp.webp") center / 100% 100% no-repeat;
+/* Google Plan travel journal. The leaf is an exact crop of the drawn right-hand page (x 857-1675,
+   y 18-806 of the 1700x862 art), so at rest it is invisible; on hover it swings on the spine like the
+   page turn in Framer's 3D Flipping Book (perspective 2500px, origin at the spine) and lands as the
+   new left page, uncovering the next right-hand page with the clip taped in. */
+.cover-book { perspective: 2500px; }
+.journal { position: relative; width: 100%; aspect-ratio: 1700 / 862; transform-style: preserve-3d; }
+.journal-spread { display: block; width: 100%; height: 100%; filter: drop-shadow(0 22px 26px rgba(8, 9, 24, .5)); }
+.journal-next, .journal-leaf { position: absolute; left: 50.41%; top: 2.09%; width: 48.12%; height: 91.42%; }
+.journal-next {
+  display: grid; place-items: center; align-content: center; gap: 4%; border-radius: 0 2.2% 2.2% 0 / 0 2.3% 2.3% 0;
+  background: radial-gradient(120% 90% at 30% 40%, #F7EBD6, #EEDCBF); color: #4A3A2C;
 }
-.stamp-back video { position: absolute; inset: 6.7% 5% 9.6%; width: 90%; height: 83.7%; object-fit: cover; border-radius: 6px; box-shadow: 0 0 0 3px #F6E9D0, 0 0 0 5px #A3402E; background: #3E7A4A; }
+/* shadow the lifting page casts on the next one: strong at the spine while it lifts, gone once it lands */
+.journal-next::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(40, 24, 10, .45), transparent 38%); opacity: 1; transition: opacity .9s cubic-bezier(.645, .045, .355, 1); pointer-events: none; }
+.journal-clip { position: relative; width: 82%; margin: 0; padding: 3.5%; background: #FFFDF7; box-shadow: 0 6px 14px rgba(40, 24, 10, .22); rotate: -2.2deg; }
+.journal-clip::after { content: ""; position: absolute; top: -7%; left: 38%; width: 26%; height: 14%; background: rgba(214, 170, 120, .55); rotate: 3deg; } /* washi tape */
+.journal-clip video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #3E7A4A; }
+.journal .journal-note { margin: 0; max-width: none; font: clamp(.95rem, 1.4vw, 1.25rem)/1.2 var(--hand); color: #5C4632; } /* ink on paper; beats .project p */
+.journal-leaf { transform: translateZ(1px); transform-origin: 0 50%; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.645, .045, .355, 1); }
+.leaf-face { position: absolute; inset: 0; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 0 2.2% 2.2% 0 / 0 2.3% 2.3% 0; }
+.leaf-front img { position: absolute; left: -104.77%; top: -2.284%; width: 207.82%; height: 109.39%; max-width: none; }
+/* the page darkens as it stands up off the spine */
+.leaf-front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(40, 24, 10, .28), transparent 30%); opacity: 0; transition: opacity .45s ease; }
+.leaf-back {
+  transform: rotateY(180deg); border-radius: 2.2% 0 0 2.2% / 2.3% 0 0 2.3%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2%;
+  background: linear-gradient(270deg, #E9D5B4, #F5E8D2 22%, #F7EBD6); color: #4A3A2C;
+}
+.journal .journal-title { margin: 0; max-width: none; color: #3B2C20; font: 800 clamp(1.4rem, 2.6vw, 2.4rem)/1 var(--display); letter-spacing: -.03em; }
+.project-link.is-flipped .journal-leaf, .project-link:focus-visible .journal-leaf { transform: translateZ(1px) rotateY(-180deg); } /* 1px lift keeps it off the spread's plane */
+@media (hover: hover) { .project-link:hover .journal-leaf { transform: translateZ(1px) rotateY(-180deg); } }
+.project-link.is-flipped .journal-next::before, .project-link:focus-visible .journal-next::before { opacity: 0; }
+@media (hover: hover) { .project-link:hover .journal-next::before { opacity: 0; } .project-link:hover .leaf-front::after { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .journal-leaf, .journal-next::before { transition: none; } }
 /* mindline card: the mirror illustration on the front, the 30s promo on the back (square, like the old video card) */
-.project-b .cover-flip { aspect-ratio: 1 / 1; }
+.project-b .cover.cover-flip { aspect-ratio: 1 / 1; }
 .mindline-front img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(6px 10px 0 rgba(8, 9, 24, .45)); }
 .mindline-back { border-radius: 24px; overflow: hidden; background: #F7F0FF; box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 18px rgba(0, 0, 0, .12), 0 26px 52px rgba(0, 0, 0, .18); }
 .mindline-back video { width: 100%; height: 100%; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) { .flip { transition: none; } }
-.project-link:hover .cover { transform: translateY(-6px) rotate(-1deg); border-color: var(--accent); }
-.project h3 { margin: 22px 0 6px; font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; }
+.project h3 { margin: 0 0 12px; font-size: clamp(2rem, 3.4vw, 2.75rem); font-weight: 800; line-height: 1.05; letter-spacing: -.03em; color: var(--chalk); }
 .project-link:hover h3 { text-decoration: underline wavy var(--accent) 1.5px; text-underline-offset: 7px; }
-.project p { margin: 0; color: var(--body); max-width: 46ch; }
-.project .meta { margin-top: 10px; font: 1.15rem var(--hand); color: var(--mute); }
+.project p { margin: 0; color: var(--body); max-width: 48ch; text-wrap: pretty; }
 
 .about { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: start; }
 /* Photo stack: click to send the front photo to the back. */
@@ -359,8 +421,8 @@ h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; fon
   .brand { font-size: 1.15rem; }
   .theme-mini { display: block; }
   .hero-copy { top: 80px; right: 16px; }
-  .work-grid, .about { grid-template-columns: 1fr; gap: 48px; }
-  .project-a, .project-b, .photos, .about-text { grid-column: auto; margin-top: 0; }
+  .about { grid-template-columns: 1fr; gap: 48px; }
+  .photos, .about-text { grid-column: auto; margin-top: 0; }
   .photos { width: min(78%, 320px); margin: 40px auto 0; padding-right: 0; }
   .xp li { grid-template-columns: 1fr; }
   .contact-body { grid-template-columns: 1fr; }

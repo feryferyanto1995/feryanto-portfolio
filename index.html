@@ -66,42 +66,68 @@
 
     <section id="work" class="work">
       <h2 class="reveal">Selected work</h2>
-      <div class="work-grid">
+      <div class="work-list">
         <article class="project project-a reveal">
           <a href="#" class="project-link">
-            <!-- Stamp turns over on hover/focus (like a postcard) to show the motion piece on its back. -->
-            <div class="cover cover-flip">
-              <div class="flip stamp-flip">
-                <div class="flip-face stamp-front">
-                  <img src="assets/vintage-stamp.webp" width="1672" height="941" alt="Vintage Japanese postage stamp: Mount Fuji behind a tree and a field of orange marigolds" loading="lazy" decoding="async">
-                </div>
-                <div class="flip-face flip-back stamp-back" aria-hidden="true">
-                  <!-- TODO: placeholder clip; swap in the real Google Plan motion design (same file name, 16:9) -->
-                  <video src="assets/google-plan-motion.mp4" muted loop playsinline preload="none"></video>
+            <div class="project-visual">
+              <!-- Travel journal: on hover/focus the right-hand page turns over on the spine, like a real book,
+                   revealing the next spread with the motion piece taped in. -->
+              <div class="cover cover-flip cover-book">
+                <div class="journal">
+                  <img class="journal-spread" src="assets/travel-journal.webp" width="1700" height="862" alt="An open travel sketchbook of Japan: Godzilla above a Glico sign, Tokyo Tower, the Great Buddha of Kamakura and a Mount Fuji stamp" loading="lazy" decoding="async">
+                  <div class="journal-next" aria-hidden="true">
+                    <figure class="journal-clip">
+                      <!-- TODO: placeholder clip; swap in the real Google Plan motion design (same file name, 16:9) -->
+                      <video src="assets/google-plan-motion.mp4" muted loop playsinline preload="none"></video>
+                    </figure>
+                    <p class="journal-note">motion study, coming soon</p>
+                  </div>
+                  <div class="journal-leaf" aria-hidden="true">
+                    <div class="leaf-face leaf-front"><img src="assets/travel-journal.webp" width="1700" height="862" alt="" loading="lazy" decoding="async"></div>
+                    <div class="leaf-face leaf-back"><p class="journal-title">Google Plan</p><p class="journal-note">one app for the whole trip</p></div>
+                  </div>
                 </div>
               </div>
             </div>
-            <h3>Google Plan</h3>
-            <p>A new Google Maps feature that lets people plan a trip in one app, instead of juggling several tools.</p>
-            <p class="meta">User research, UX design <span aria-hidden="true">/</span> Capstone <span aria-hidden="true">/</span> 2026</p>
+            <div class="project-body">
+              <ul class="tags" aria-label="Disciplines"><li>User research</li><li>UX design</li><li>Google Maps</li></ul>
+              <h3>Google Plan</h3>
+              <p>A new Google Maps feature that lets people plan a whole trip in one app, instead of juggling notes, chats, spreadsheets and bookmarks.</p>
+              <dl class="facts">
+                <div><dt>Role</dt><dd>UX designer</dd></div>
+                <div><dt>Type</dt><dd>Capstone</dd></div>
+                <div><dt>Year</dt><dd>2026</dd></div>
+              </dl>
+              <span class="project-cta is-soon">Case study coming soon</span>
+            </div>
           </a>
         </article>
         <article class="project project-b reveal">
           <a href="mindline/" class="project-link">
-            <!-- Turns over on hover/focus to the 30s promo; a click still opens the case study. -->
-            <div class="cover cover-flip">
-              <div class="flip">
-                <div class="flip-face mindline-front">
-                  <img src="assets/mindline-hero.webp" width="1254" height="1254" alt="A man in a mirror sees his younger self in a school uniform looking back" loading="lazy" decoding="async">
-                </div>
-                <div class="flip-face flip-back mindline-back" aria-hidden="true">
-                  <video src="assets/mindline-30s.mp4" muted loop playsinline preload="none"></video>
+            <div class="project-visual">
+              <!-- Turns over on hover/focus to the 30s promo; a click still opens the case study. -->
+              <div class="cover cover-flip">
+                <div class="flip">
+                  <div class="flip-face mindline-front">
+                    <img src="assets/mindline-hero.webp" width="1254" height="1254" alt="A man in a mirror sees his younger self in a school uniform looking back" loading="lazy" decoding="async">
+                  </div>
+                  <div class="flip-face flip-back mindline-back" aria-hidden="true">
+                    <video src="assets/mindline-30s.mp4" muted loop playsinline preload="none"></video>
+                  </div>
                 </div>
               </div>
             </div>
-            <h3>mindline.sg</h3>
-            <p>A redesign of Singapore's mental-health portal, so a first visit late at night leads to real help instead of a 14-screen maze.</p>
-            <p class="meta">UX research, redesign <span aria-hidden="true">/</span> 2026</p>
+            <div class="project-body">
+              <ul class="tags" aria-label="Disciplines"><li>UX research</li><li>Redesign</li><li>Mental health</li></ul>
+              <h3>mindline.sg</h3>
+              <p>A redesign of Singapore's mental-health portal, so a first visit late at night leads to real help instead of a 14-screen maze.</p>
+              <dl class="facts">
+                <div><dt>Role</dt><dd>UX designer · PM</dd></div>
+                <div><dt>Team</dt><dd>6 people</dd></div>
+                <div><dt>Tools</dt><dd>Figma, Claude Code</dd></div>
+              </dl>
+              <span class="project-cta">Read case study <svg class="arrow" viewBox="0 0 22 14" width="22" height="14" aria-hidden="true"><path d="M1 7h19M14 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
           </a>
         </article>
       </div>
